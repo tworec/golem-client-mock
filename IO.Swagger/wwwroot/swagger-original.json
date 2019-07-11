@@ -1,0 +1,734 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "Market API",
+    "version" : "1.0.0",
+    "title" : "Golem Market API"
+  },
+  "host" : "api.golem.network",
+  "basePath" : "/market-api/v1",
+  "tags" : [ {
+    "name" : "requestor",
+    "description" : "Requestor Part"
+  }, {
+    "name" : "provider",
+    "description" : "Provider part"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/offers" : {
+      "post" : {
+        "tags" : [ "provider" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "subscribe",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Offer description",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Offer"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "string",
+              "description" : "Offer ID"
+            }
+          },
+          "400" : {
+            "description" : "Bad offer desciption"
+          }
+        }
+      }
+    },
+    "/offers/{subscriptionId}" : {
+      "delete" : {
+        "tags" : [ "provider" ],
+        "operationId" : "unsubscribe",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Delete"
+          },
+          "404" : {
+            "description" : "Subscription not found"
+          }
+        }
+      }
+    },
+    "/offers/{subscriptionId}/proposals/{proposalId}" : {
+      "get" : {
+        "tags" : [ "provider" ],
+        "summary" : "Fetches agreement proposal from proposal id.",
+        "operationId" : "getProposal",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "proposalId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/AgreementProposal"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "provider" ],
+        "summary" : "Rejects offer",
+        "operationId" : "rejectProposal",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "proposalId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/offers/{subscriptionId}/proposals/{proposalId}/offer" : {
+      "post" : {
+        "tags" : [ "provider" ],
+        "summary" : "Creates agreement proposal",
+        "operationId" : "createProposal",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "proposalId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "proposal",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Proposal"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "string",
+              "description" : "Proposal ID"
+            }
+          }
+        }
+      }
+    },
+    "/offers/{subscriptionId}/events" : {
+      "get" : {
+        "tags" : [ "provider" ],
+        "operationId" : "collect",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "timeout",
+          "in" : "query",
+          "required" : false,
+          "type" : "number",
+          "format" : "float"
+        }, {
+          "name" : "maxEvents",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Proposal"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/offers/{subscriptionId}/propertyQuery/{queryId}" : {
+      "post" : {
+        "tags" : [ "provider" ],
+        "operationId" : "queryResponse",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "queryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "propertyValues",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PropertyQueryResponse"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/demands" : {
+      "post" : {
+        "tags" : [ "requestor" ],
+        "summary" : "",
+        "description" : "",
+        "operationId" : "subscribe",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Demand description",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Demand"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Offer published",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Bad offer desciption"
+          }
+        }
+      }
+    },
+    "/demands/{subscriptionId}" : {
+      "delete" : {
+        "tags" : [ "requestor" ],
+        "operationId" : "unsubscribe",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Delete"
+          },
+          "404" : {
+            "description" : "Subscription not found"
+          }
+        }
+      }
+    },
+    "/demands/{subscriptionId}/events" : {
+      "get" : {
+        "tags" : [ "requestor" ],
+        "operationId" : "collect",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "timeout",
+          "in" : "query",
+          "required" : false,
+          "type" : "number",
+          "format" : "float"
+        }, {
+          "name" : "maxEvents",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/RequestorEvent"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/demands/{subscriptionId}/proposals/{proposalId}" : {
+      "get" : {
+        "tags" : [ "requestor" ],
+        "summary" : "Fetches agreement proposal from proposal id.",
+        "operationId" : "getProposal",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "proposalId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "$ref" : "#/definitions/AgreementProposal"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "requestor" ],
+        "summary" : "Rejects offer",
+        "operationId" : "rejectProposal",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "proposalId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/demands/{subscriptionId}/proposals/{proposalId}/demand" : {
+      "post" : {
+        "tags" : [ "requestor" ],
+        "summary" : "Creates agreement proposal",
+        "operationId" : "createProposal",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "proposalId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "demandProposal",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/Proposal"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK",
+            "schema" : {
+              "type" : "string",
+              "description" : "Proposal ID"
+            }
+          }
+        }
+      }
+    },
+    "/demands/{subscriptionId}/propertyQuery/{queryId}" : {
+      "post" : {
+        "tags" : [ "requestor" ],
+        "operationId" : "queryResponse",
+        "parameters" : [ {
+          "name" : "subscriptionId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "queryId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "propertyValues",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/PropertyQueryResponse"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/agreements" : {
+      "post" : {
+        "tags" : [ "requestor" ],
+        "summary" : "Creates new agreement from proposal",
+        "operationId" : "createAgreement",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "agreement",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Agreement"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        }
+      }
+    },
+    "/agreements/{agreementId}" : {
+      "delete" : {
+        "tags" : [ "requestor" ],
+        "summary" : "Cancels agreement.",
+        "operationId" : "cancelAgreement",
+        "parameters" : [ {
+          "name" : "agreementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Agreement canceled"
+          }
+        }
+      }
+    },
+    "/agreements/{agreementId}/reject" : {
+      "post" : {
+        "tags" : [ "provider" ],
+        "summary" : "Rejects agreement.",
+        "operationId" : "rejectAgreement",
+        "parameters" : [ {
+          "name" : "agreementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Agreement rejected"
+          }
+        }
+      }
+    },
+    "/agreements/{agreementId}/confirm" : {
+      "post" : {
+        "tags" : [ "requestor" ],
+        "summary" : "approves",
+        "operationId" : "confirmAgreement",
+        "parameters" : [ {
+          "name" : "agreementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/agreements/{agreementId}/wait" : {
+      "post" : {
+        "tags" : [ "requestor" ],
+        "operationId" : "waitForApproval",
+        "parameters" : [ {
+          "name" : "agreementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    },
+    "/agreements/{agreementId}/approve" : {
+      "post" : {
+        "tags" : [ "provider" ],
+        "operationId" : "approveAgreement",
+        "parameters" : [ {
+          "name" : "agreementId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "RequestorEvent" : {
+      "required" : [ "eventType", "providerId" ],
+      "discriminator" : "eventType",
+      "properties" : {
+        "eventType" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "providerId" : "providerId",
+        "eventType" : "eventType"
+      }
+    },
+    "ProviderEvent" : {
+      "required" : [ "eventType", "requestorId" ],
+      "discriminator" : "eventType",
+      "properties" : {
+        "eventType" : {
+          "type" : "string"
+        },
+        "requestorId" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "eventType" : "DemandEvent",
+        "requestorId" : 1172812402961,
+        "demand" : {
+          "golem" : {
+            "arch" : "x86"
+          }
+        }
+      }
+    },
+    "AgreementProposal" : {
+      "type" : "object",
+      "required" : [ "demand", "id", "offer" ],
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "demand" : {
+          "$ref" : "#/definitions/Proposal"
+        },
+        "offer" : {
+          "$ref" : "#/definitions/Proposal"
+        }
+      },
+      "example" : {
+        "offer" : {
+          "prevProposalId" : "prevProposalId",
+          "id" : "id",
+          "constraints" : "constraints",
+          "properties" : "{}"
+        },
+        "id" : "id",
+        "demand" : {
+          "prevProposalId" : "prevProposalId",
+          "id" : "id",
+          "constraints" : "constraints",
+          "properties" : "{}"
+        }
+      }
+    },
+    "Proposal" : {
+      "type" : "object",
+      "required" : [ "constraints", "properties" ],
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "properties" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "constraints" : {
+          "type" : "string"
+        },
+        "prevProposalId" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "prevProposalId" : "prevProposalId",
+        "id" : "id",
+        "constraints" : "constraints",
+        "properties" : "{}"
+      }
+    },
+    "DemandEvent" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/ProviderEvent"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "demand" : {
+            "$ref" : "#/definitions/Proposal"
+          }
+        }
+      } ]
+    },
+    "OfferEvent" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/RequestorEvent"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "offer" : {
+            "$ref" : "#/definitions/Proposal"
+          }
+        }
+      } ]
+    },
+    "NewAgreementEvent" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/ProviderEvent"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "requestorId" : {
+            "type" : "string"
+          },
+          "demand" : {
+            "$ref" : "#/definitions/Demand"
+          },
+          "providerId" : {
+            "type" : "string"
+          },
+          "offer" : {
+            "$ref" : "#/definitions/Offer"
+          }
+        }
+      } ]
+    },
+    "ProviderPropertyQuery" : {
+      "allOf" : [ {
+        "$ref" : "#/definitions/ProviderEvent"
+      }, {
+        "type" : "object",
+        "properties" : {
+          "requestorDesc" : {
+            "type" : "object",
+            "properties" : { }
+          },
+          "queryId" : {
+            "type" : "string"
+          },
+          "queriedProps" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      } ]
+    },
+    "PropertyQueryResponse" : {
+      "type" : "object"
+    },
+    "Demand" : {
+      "type" : "object",
+      "required" : [ "constraints", "properties" ],
+      "properties" : {
+        "properties" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "constraints" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "constraints" : "constraints",
+        "properties" : "{}"
+      }
+    },
+    "Offer" : {
+      "type" : "object",
+      "required" : [ "constraints", "properties" ],
+      "properties" : {
+        "properties" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "constraints" : {
+          "type" : "string"
+        }
+      },
+      "example" : {
+        "constraints" : "constraints",
+        "properties" : "{}"
+      }
+    },
+    "Agreement" : {
+      "type" : "object",
+      "required" : [ "expirationDate", "proposalId" ],
+      "properties" : {
+        "proposalId" : {
+          "type" : "string"
+        },
+        "expirationDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Swagger",
+    "url" : "http://swagger.io"
+  }
+}
