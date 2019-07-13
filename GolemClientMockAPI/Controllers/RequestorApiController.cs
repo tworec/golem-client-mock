@@ -292,10 +292,10 @@ namespace GolemMarketMockAPI.Controllers
 
             demandEntity.NodeId = clientContext.NodeId;
 
-            var subscription = this.SubscriptionRepository.CreateDemandSubscription(demandEntity);
+            var subscription = this.MarketProcessor.SubscribeDemand(demandEntity);
             
             // return created Subscription Id
-            return new ObjectResult(subscription.Id);
+            return this.Content(subscription.Id);
         }
 
         /// <summary>

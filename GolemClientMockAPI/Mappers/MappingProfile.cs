@@ -19,7 +19,8 @@ namespace GolemClientMockAPI.Mappers
 
             // ...to Entities
 
-            CreateMap<GolemMarketMockAPI.MarketAPI.Models.Demand, Entities.Demand>();
+            CreateMap<GolemMarketMockAPI.MarketAPI.Models.Demand, Entities.Demand>()
+                .ForMember(dest => dest.Properties, opt => opt.MapFrom(src => PropertyMappers.MapFromJsonString(src.Properties.ToString())));
 
         }
     }

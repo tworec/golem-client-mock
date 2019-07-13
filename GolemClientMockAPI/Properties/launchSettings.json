@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "ancmHostingModel": "OutOfProcess",
-      "applicationUrl": "https://localhost:5001"
+      "applicationUrl": "http://localhost:5001"
     },
     "GolemClientMockAPI": {
       "commandName": "IISExpress",
