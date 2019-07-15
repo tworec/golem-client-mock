@@ -46,6 +46,12 @@ namespace GolemClientMockAPI.Processors
         /// </summary>
         protected IDictionary<string, string> OfferSubscriptions = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Dictionary of blocking queues of AgreementResultEnum, indexed by Agreement Id. 
+        /// These are used to message the responses to ConfirmAgreement calls.
+        /// </summary>
+        protected IDictionary<string, BlockingCollection<AgreementResultEnum>> AgreementResultPipelines = new Dictionary<string, BlockingCollection<AgreementResultEnum>>();
+
 
         public InMemoryMarketProcessor(ISubscriptionRepository subscriptionRepository, 
                                        IProposalRepository proposalRepository,
@@ -92,12 +98,29 @@ namespace GolemClientMockAPI.Processors
 
         public Agreement CreateAgreement(string subscriptionId, string offerProposalId)
         {
-            throw new NotImplementedException();
+            return new CreateAgreementOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.AgreementRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions
+                ).Run(subscriptionId, offerProposalId);
         }
 
-        public void ConfirmAgreement(string agreementId, float? timeout)
+        public Task<AgreementResultEnum> ConfirmAgreementAsync(string agreementId, float? timeout)
         {
-            throw new NotImplementedException();
+            return new ConfirmAgreementOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.AgreementRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions,
+                this.AgreementResultPipelines
+                ).Run(agreementId, timeout);
         }
 
         public void CancelAgreement(string agreementId)
@@ -152,12 +175,26 @@ namespace GolemClientMockAPI.Processors
 
         public void RejectAgreement(string agreementId)
         {
-            throw new NotImplementedException();
+            SendAgreementResponse(agreementId, AgreementResultEnum.Rejected);
         }
 
         public Agreement ApproveAgreement(string agreementId)
         {
-            throw new NotImplementedException();
+            return SendAgreementResponse(agreementId, AgreementResultEnum.Approved);
+        }
+
+        protected Agreement SendAgreementResponse(string agreementId, AgreementResultEnum response)
+        {
+            return new SendAgreementResponseOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.AgreementRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions,
+                this.AgreementResultPipelines
+                ).Run(agreementId, response);
         }
 
         public void UnsubscribeOffer(string subscriptionId)

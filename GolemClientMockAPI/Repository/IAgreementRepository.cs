@@ -8,9 +8,9 @@ namespace GolemClientMockAPI.Repository
 {
     public interface IAgreementRepository
     {
-        Agreement CreateAgreement(Demand demand, Offer offer);
+        Agreement CreateAgreement(Demand demand, OfferProposal offer);
         void UpdateAgreementState(string agreementId, AgreementState state);
-
+        Agreement GetAgreement(string agreementId);
 
     }
 }

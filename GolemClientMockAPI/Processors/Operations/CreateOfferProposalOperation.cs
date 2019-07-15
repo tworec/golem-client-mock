@@ -35,9 +35,9 @@ namespace GolemClientMockAPI.Processors.Operations
                     var receivingDemandSubscription = this.RequestorEventPipelines[this.DemandSubscriptions[demandProposalId]].Subscription;
 
                     // 2. Persist the offer proposal
-                    var offerProposal = this.ProposalRepository.SaveOfferProposal(receivingDemandSubscription.Id, offer, demandProposalId);
+                    var offerProposal = this.ProposalRepository.SaveOfferProposal(receivingDemandSubscription.Id, offerSubscriptionId, offer, demandProposalId);
 
-                    this.OfferSubscriptions.Add(offerProposal.Offer.Id, offerSubscriptionId);
+                    this.OfferSubscriptions.Add(offerProposal.Id, offerSubscriptionId);
 
                     // TODO should matching be checked here as well between the demand and responding offer proposal?
 

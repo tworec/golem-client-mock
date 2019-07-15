@@ -31,7 +31,8 @@ namespace GolemClientMockAPI.Processors.Operations
 
                 var subscription = this.SubscriptionRepository.GetOfferSubscription(subscriptionId);
 
-                // First check if there aren't any unfetched events in the subscription
+                // First check if there aren't any unfetched demend proposals in the subscription
+                // NOTE: This is for demand prospoals only. Should Agreement proposals be persisted in DB too???
 
                 var recordedProposals = this.ProposalRepository.GetDemandProposals(subscriptionId, subscription.LastReceivedProposalId).OrderBy(prop => prop.InternalId);
 
@@ -63,6 +64,9 @@ namespace GolemClientMockAPI.Processors.Operations
                                 {
                                     result.Add(provEvent);
                                 }
+                                break;
+                            case ProviderEvent.ProviderEventType.AgreementProposal:
+                                result.Add(provEvent);
                                 break;
                             default:
                                 throw new Exception($"Unknown Request Event Type {provEvent.EventType}!");

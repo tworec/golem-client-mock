@@ -39,7 +39,6 @@ namespace GolemMarketApiMockupTests
                     @"(golem.com.pricing.model=linear)" +
                     //@"(golem.com.pricing.est{[30]}<125)" +
                 @")",
-                Id = null,
                 NodeId = "RequestorA", // must be assigned from the outside
                 Properties = new Dictionary<string, string>()
             };
@@ -56,7 +55,6 @@ namespace GolemMarketApiMockupTests
             var offer1 = new Offer()
             {
                 Constraints = "()",
-                Id = null,
                 NodeId = "ProviderA",
                 Properties = new Dictionary<string, string>()
                 {
@@ -77,7 +75,6 @@ namespace GolemMarketApiMockupTests
             var offer2 = new Offer()
             {
                 Constraints = "()",
-                Id = null,
                 NodeId = "ProviderB",
                 Properties = new Dictionary<string, string>()
                 {
@@ -115,7 +112,9 @@ namespace GolemMarketApiMockupTests
 
             Assert.IsTrue(reqEvents.Any());
 
-            Assert.AreEqual(offer2Subscription.Offer.Id, offerProposal.OfferProposal.Offer.Id);
+            // note that these should not be equal 
+            // (SubscriptionId as perceived by Provider is different than Offer Proposal Id as seen by the Requestor)
+            Assert.AreNotEqual(offer2Subscription.Id, offerProposal.OfferProposal.Id);
 
             // OK, we got an offer proposal, we can now send a direct Demand counterproposal
 
@@ -130,19 +129,18 @@ namespace GolemMarketApiMockupTests
                     @"(golem.com.pricing.model.linear.coeffs=*)" +
                 //@"(golem.com.pricing.est{[30]}<125)" +
                 @")",
-                Id = null,
                 NodeId = "RequestorA", // must be assigned from the outside
                 Properties = new Dictionary<string, string>()
             };
 
-            var counterDemandProposal = requestorProcessor.CreateDemandProposal(demandSubscription.Id, offerProposal.OfferProposal.Offer.Id, counterDemand);
+            var counterDemandProposal = requestorProcessor.CreateDemandProposal(demandSubscription.Id, offerProposal.OfferProposal.Id, counterDemand);
 
             // At this point, the Provider should be able to read the Demand Proposal on the Offer subscription
 
             var provEvents = await providerProcessor.CollectProviderEventsAsync(offer2Subscription.Id, 1000, 10);
 
             Assert.IsTrue(provEvents.Any());
-            Assert.AreEqual(counterDemandProposal.Demand.Id, provEvents.First().DemandProposal.Demand.Id);
+            Assert.AreEqual(counterDemandProposal.Id, provEvents.First().DemandProposal.Id);
 
             // ...if we call again - there should be no proposals, so a timeout is expected after 100ms
             var provEvents2 = await providerProcessor.CollectProviderEventsAsync(offer2Subscription.Id, 100, 10);
@@ -164,7 +162,6 @@ namespace GolemMarketApiMockupTests
             var counterOffer = new Offer()
             {
                 Constraints = "()",
-                Id = null,
                 NodeId = "ProviderB",
                 Properties = new Dictionary<string, string>()
                 {
@@ -183,13 +180,46 @@ namespace GolemMarketApiMockupTests
                 }
             };
 
-            var counterOfferProposal = providerProcessor.CreateOfferProposal(offer2Subscription.Id, provEvents.First().DemandProposal.Demand.Id, counterOffer);
+            var counterOfferProposal = providerProcessor.CreateOfferProposal(offer2Subscription.Id, provEvents.First().DemandProposal.Id, counterOffer);
 
             Thread.Sleep(5000);
 
+            Assert.IsTrue(reqEvents2.Any());
 
             // OK, so the reqEvents2 now contains an offer which is acceptable.
             // Requestor can move on to propose Agreement...
+
+            var agreement = requestorProcessor.CreateAgreement(demandSubscription.Id, reqEvents2.First().OfferProposal.Id);
+
+            Assert.IsNotNull(agreement);
+            Assert.AreEqual(reqEvents2.First().OfferProposal.Id, agreement.Id);
+            Assert.AreEqual(AgreementState.New, agreement.State);
+            Assert.IsNotNull(agreement.Demand);
+
+            // Confirm and start waiting for Agreement proposal response
+            AgreementResultEnum? agreementResponse = null;
+            Task.Run(async () =>
+            {
+                agreementResponse = await requestorProcessor.ConfirmAgreementAsync(agreement.Id, 5000);
+
+                Assert.IsNotNull(agreementResponse);
+            });
+
+
+            // ...in the meantime - collect the Agreement prpoosal on Provider side and send response
+
+            var provEvents3 = await providerProcessor.CollectProviderEventsAsync(offer2Subscription.Id, 100000, 10);
+
+            Assert.IsTrue(provEvents3.Any());
+            var receivedAgreementProposal = provEvents3.First();
+
+            Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
+
+            providerProcessor.ApproveAgreement(receivedAgreementProposal.Agreement.Id);
+
+            Thread.Sleep(100);
+
+            Assert.AreEqual(AgreementResultEnum.Approved, agreementResponse);
 
         }
 

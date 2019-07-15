@@ -23,5 +23,9 @@ namespace GolemClientMockAPI.Entities
         /// </summary>
         public DemandProposal DemandProposal { get; set; }
 
+        /// <summary>
+        /// For EventType = AgreementProposal - this contains received Agreement
+        /// </summary>
+        public Agreement Agreement { get; set; }
     }
 }

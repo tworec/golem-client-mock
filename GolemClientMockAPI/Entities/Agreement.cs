@@ -7,6 +7,7 @@ namespace GolemClientMockAPI.Entities
 {
     public enum AgreementState
     {
+        New,
         Proposed,
         Approved,
         Rejected

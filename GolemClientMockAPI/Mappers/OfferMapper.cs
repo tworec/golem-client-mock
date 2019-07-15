@@ -7,24 +7,25 @@ using System.Threading.Tasks;
 
 namespace GolemClientMockAPI.Mappers
 {
-    public class DemandMapper
+    public class OfferMapper
     {
         public IMapper Mapper { get; set; }
 
-        public DemandMapper(IMapper mapper)
+        public OfferMapper(IMapper mapper)
         {
             this.Mapper = mapper;
         }
 
-        public Entities.Demand MapToEntity(Demand demand)
+        public Entities.Offer MapToEntity(Offer offer)
         {
-            return this.Mapper.Map<Entities.Demand>(demand);
+            return this.Mapper.Map<Entities.Offer>(offer);
+        }
+        public Proposal MapEntityToProposal(Entities.OfferProposal offerProposal)
+        {
+            return this.Mapper.Map<Proposal>(offerProposal);
         }
 
-        public Proposal MapEntityToProposal(Entities.DemandProposal demandProposal)
-        {
-            return this.Mapper.Map<Proposal>(demandProposal);
-        }
+
 
     }
 }

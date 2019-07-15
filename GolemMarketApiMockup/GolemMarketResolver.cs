@@ -50,10 +50,12 @@ namespace GolemMarketApiMockup
 
             try
             {
-                return (ResultEnum) match_demand_offer(demand_props_packed.Refs, demand_props_packed.Length,
+                var resolutionResult = (ResultEnum)match_demand_offer(demand_props_packed.Refs, demand_props_packed.Length,
                                           demand_constraints_packed,
-                                          offer_props_packed.Refs, offer_props_packed.Length, 
+                                          offer_props_packed.Refs, offer_props_packed.Length,
                                           offer_constraints_packed);
+
+                return resolutionResult;
 
             }
             catch (Exception exc)

@@ -16,7 +16,7 @@ namespace GolemClientMockAPI.Processors
 
         Agreement CreateAgreement(string subscriptionId, string offerProposalId);
 
-        void ConfirmAgreement(string agreementId, float? timeout);
+        Task<AgreementResultEnum> ConfirmAgreementAsync(string agreementId, float? timeout);
 
         void CancelAgreement(string agreementId);
 

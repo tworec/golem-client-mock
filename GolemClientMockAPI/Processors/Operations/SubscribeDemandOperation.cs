@@ -32,7 +32,6 @@ namespace GolemClientMockAPI.Processors.Operations
             };
 
             this.RequestorEventPipelines.Add(demandSubscription.Id, pipeline);
-            this.DemandSubscriptions.Add(demandSubscription.Demand.Id, demandSubscription.Id);
 
             // 3. Resolve the Demand against existing Offer subscriptions and:
             //    - pull the matching ones immediately to pipeline 
@@ -54,7 +53,8 @@ namespace GolemClientMockAPI.Processors.Operations
                 {
                     case GolemMarketResolver.ResultEnum.True:
                         // Persist OfferProposal with 
-                        var offerProposal = this.ProposalRepository.SaveOfferProposal(demandSubscription.Id, offer);
+                        var offerProposal = this.ProposalRepository.SaveOfferProposal(demandSubscription.Id, offerSubscription.Subscription.Id, offer); // no "previous proposal id" as we are mathcing the "on market" demands/offers
+                        this.OfferSubscriptions.Add(offerProposal.Id, offerSubscription.Subscription.Id);
 
                         // Build Provider OfferProposal event and put in Requestor pipeline
                         var requestorEvent = new RequestorEvent()

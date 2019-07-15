@@ -29,7 +29,6 @@ using GolemClientMockAPI.Processors;
 using GolemClientMockAPI.Mappers;
 using GolemClientMockAPI.Security;
 
-
 namespace GolemMarketMockAPI.Controllers
 {
     /// <summary>
@@ -45,13 +44,15 @@ namespace GolemMarketMockAPI.Controllers
 
         public RequestorEventMapper RequestorEventMapper { get; set; }
         public DemandMapper DemandMapper { get; set; }
+        public OfferMapper OfferMapper { get; set; }
 
         public RequestorApiController(IRequestorMarketProcessor marketProcessor,
             ISubscriptionRepository subscriptionRepository,
             IProposalRepository proposalRepository,
             IAgreementRepository agreementRepository,
             RequestorEventMapper requestorEventMapper,
-            DemandMapper demandMapper)
+            DemandMapper demandMapper,
+            OfferMapper offerMapper)
         {
             this.MarketProcessor = marketProcessor;
             this.SubscriptionRepository = subscriptionRepository;
@@ -59,6 +60,7 @@ namespace GolemMarketMockAPI.Controllers
             this.AgreementRepository = agreementRepository;
             this.RequestorEventMapper = requestorEventMapper;
             this.DemandMapper = demandMapper;
+            this.OfferMapper = offerMapper;
         }
 
         /// <summary>
@@ -111,8 +113,8 @@ namespace GolemMarketMockAPI.Controllers
             
             var events = await this.MarketProcessor.CollectRequestorEventsAsync(subscriptionId, timeout, (int?)maxEvents);
 
-            var result =  events.Select(proposal => this.RequestorEventMapper.Map(proposal))
-                                   .ToList();
+            var result = events.Select(proposal => this.RequestorEventMapper.Map(proposal))
+                               .ToList();
 
             // Return the collected requestor events (including offer proposals)
             return StatusCode(200, result);
@@ -148,10 +150,20 @@ namespace GolemMarketMockAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("CreateAgreement")]
         public virtual IActionResult CreateAgreement([FromBody]Agreement agreement)
-        { 
-            //TODO: Uncomment the next line to return response 201 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(201);
+        {
+            // locate the offerProposalId
+            var offerProposal = this.ProposalRepository.GetOfferProposal(agreement.ProposalId);
 
+            if (offerProposal == null)
+            {
+                return StatusCode(404); // Not Found
+            }
+
+            //this.ProposalRepository.
+
+            this.MarketProcessor.CreateAgreement("", agreement.ProposalId);
+
+           
 
             throw new NotImplementedException();
         }
@@ -191,12 +203,12 @@ namespace GolemMarketMockAPI.Controllers
                     Constraints = demandProposal.Constraints,
                     Properties = demandProposal.Properties as Dictionary<string, string>
                 };
+
             try
             {
                 var demandProposalEntity = this.MarketProcessor.CreateDemandProposal(subscriptionId, proposalId, demandEntity);
 
-                return new ObjectResult(demandProposalEntity.Demand.Id);
-
+                return new ObjectResult(demandProposalEntity.Id);
             }
             catch (Exception exc)
             {
@@ -217,18 +229,40 @@ namespace GolemMarketMockAPI.Controllers
         [SwaggerOperation("GetProposal")]
         [SwaggerResponse(statusCode: 200, type: typeof(AgreementProposal), description: "OK")]
         public virtual IActionResult GetProposal([FromRoute][Required]string subscriptionId, [FromRoute][Required]string proposalId)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(AgreementProposal));
+        {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
 
-            string exampleJson = null;
-            exampleJson = "{\n  \"offer\" : {\n    \"prevProposalId\" : \"prevProposalId\",\n    \"id\" : \"id\",\n    \"constraints\" : \"constraints\",\n    \"properties\" : \"{}\"\n  },\n  \"id\" : \"id\",\n  \"demand\" : {\n    \"prevProposalId\" : \"prevProposalId\",\n    \"id\" : \"id\",\n    \"constraints\" : \"constraints\",\n    \"properties\" : \"{}\"\n  }\n}";
+            var subscription = this.SubscriptionRepository.GetDemandSubscription(subscriptionId);
+
+            if (subscription == null)
+            {
+                return StatusCode(404); // Not Found
+            }
+
+            if (clientContext.NodeId != subscription.Demand.NodeId)
+            {
+                return StatusCode(401); // Unauthorized
+            }
+
+            var offerProposal = this.ProposalRepository.GetOfferProposals(subscriptionId).Where(prop => prop.Id == proposalId).FirstOrDefault();
+
+            if(offerProposal == null)
+            {
+                return StatusCode(404); // Not Found
+            }
+
+            var demandProposal = (offerProposal.DemandId == null) ? 
+                                    new GolemClientMockAPI.Entities.DemandProposal() { Demand = subscription.Demand }  : 
+                                    this.ProposalRepository.GetDemandProposal(offerProposal.DemandId);
+
+            var result = new AgreementProposal()
+            {
+                Id = proposalId,
+                Offer = this.OfferMapper.MapEntityToProposal(offerProposal),
+                Demand = this.DemandMapper.MapEntityToProposal(demandProposal)
+            };
             
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<AgreementProposal>(exampleJson)
-            : default(AgreementProposal);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
+            return StatusCode(200, result);
         }
 
         /// <summary>

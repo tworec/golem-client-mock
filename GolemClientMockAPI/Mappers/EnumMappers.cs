@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static GolemClientMockAPI.Entities.ProviderEvent;
 using static GolemClientMockAPI.Entities.RequestorEvent;
 
 namespace GolemClientMockAPI.Mappers
@@ -20,5 +21,20 @@ namespace GolemClientMockAPI.Mappers
                     throw new Exception($"Unknown RequestorEventType {eventType}");
             }
         }
+        public static string TranslateProviderEventType(ProviderEventType eventType)
+        {
+            switch (eventType)
+            {
+                case ProviderEventType.Proposal:
+                    return "demand";
+                case ProviderEventType.PropertyQuery:
+                    return "propertyQuery";
+                case ProviderEventType.AgreementProposal:
+                    return "newAgreement";
+                default:
+                    throw new Exception($"Unknown ProviderEventType {eventType}");
+            }
+        }
+
     }
 }

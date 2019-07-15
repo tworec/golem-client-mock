@@ -15,15 +15,44 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="P:GolemClientMockAPI.Entities.Proposal.Id">
+            <summary>
+            Proposal Id (as perceived by Proposal receiver)
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.Proposal.SendingSubscriptionId">
+            <summary>
+            SubscriptionId of the sender (required to identify the sending pipeline)
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.Proposal.ReceivingSubscriptionId">
+            <summary>
+            SubscriptionId of the receiver (required to identify the receiving pipeline)
+            </summary>
+        </member>
         <member name="P:GolemClientMockAPI.Entities.ProviderEvent.DemandProposal">
             <summary>
             For EventType = Proposal - this contains the received Demand Proposal
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.ProviderEvent.Agreement">
+            <summary>
+            For EventType = AgreementProposal - this contains received Agreement
             </summary>
         </member>
         <member name="P:GolemClientMockAPI.Entities.RequestorEvent.OfferProposal">
             <summary>
             For EventType = Proposal - this contains the received Offer Proposal
             </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.Mappers.PropertyMappers.ProcessJProperty(System.String,Newtonsoft.Json.Linq.JProperty,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Recursive traversal of json structure to extract properties.
+            Accumulates the collected properties in the dictionary.
+            </summary>
+            <param name="parentPath"></param>
+            <param name="property"></param>
+            <returns></returns>
         </member>
         <member name="F:GolemClientMockAPI.Processors.InMemoryMarketProcessor.RequestorEventPipelines">
             <summary>
@@ -43,6 +72,12 @@
         <member name="F:GolemClientMockAPI.Processors.InMemoryMarketProcessor.OfferSubscriptions">
             <summary>
             Dictionary of Offer subscriptionIds indexed by Offer/Proposal Ids which have been issued in those subscriptions.
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.Processors.InMemoryMarketProcessor.AgreementResultPipelines">
+            <summary>
+            Dictionary of blocking queues of AgreementResultEnum, indexed by Agreement Id. 
+            These are used to message the responses to ConfirmAgreement calls.
             </summary>
         </member>
         <member name="F:GolemClientMockAPI.Processors.Operations.InMemoryMarketOperationBase.RequestorEventPipelines">
@@ -65,7 +100,34 @@
             Dictionary of Offer subscriptionIds indexed by Offer/Proposal Ids which have been issued in those subscriptions.
             </summary>
         </member>
-        <member name="M:GolemClientMockAPI.Repository.IProposalRepository.SaveDemandProposal(System.String,GolemClientMockAPI.Entities.Demand,System.String)">
+        <member name="P:GolemClientMockAPI.Repository.InProcessSubscriptionProposalRepository.Subscriptions">
+            <summary>
+            Collection of subscriptions, indexed by SubscriptionId
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Repository.InProcessSubscriptionProposalRepository.SubscriptionProposals">
+            <summary>
+            Collection of lists of proposals RECEIVED by subscriptions, indexed by SubscriptionId
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Repository.InProcessSubscriptionProposalRepository.DemandProposals">
+            <summary>
+            Collection of Demand proposals, indexed by Demand Proposal Id
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Repository.InProcessSubscriptionProposalRepository.OfferProposals">
+            <summary>
+            Collection of Offer proposals, indexed by Offer Proposal Id
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.Repository.InProcessSubscriptionProposalRepository.GetOfferProposal(System.String)">
+            <summary>
+            OK, so here we're searching for offer proposal by offer Id - we need to look in Demand subscriptions!!!
+            </summary>
+            <param name="offerProposalId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Repository.IProposalRepository.SaveDemandProposal(System.String,System.String,GolemClientMockAPI.Entities.Demand,System.String)">
             <summary>
             Persists a Demand Proposal.
             </summary>
@@ -74,7 +136,7 @@
             <param name="offerId">If this Demand Proposal is a counter-proposal to a specific Offer, put OfferId here.</param>
             <returns></returns>
         </member>
-        <member name="M:GolemClientMockAPI.Repository.IProposalRepository.SaveOfferProposal(System.String,GolemClientMockAPI.Entities.Offer,System.String)">
+        <member name="M:GolemClientMockAPI.Repository.IProposalRepository.SaveOfferProposal(System.String,System.String,GolemClientMockAPI.Entities.Offer,System.String)">
             <summary>
             Persists an Offer Proposal.
             </summary>
@@ -91,12 +153,26 @@
             <param name="lastReceivedProposalId"></param>
             <returns></returns>
         </member>
+        <member name="M:GolemClientMockAPI.Repository.IProposalRepository.GetOfferProposal(System.String)">
+            <summary>
+            Get Offer Proposal by Proposal Id
+            </summary>
+            <param name="offerProposalId">Offer Id of the proposal</param>
+            <returns></returns>
+        </member>
         <member name="M:GolemClientMockAPI.Repository.IProposalRepository.GetDemandProposals(System.String,System.Nullable{System.Int64})">
             <summary>
             Get Proposals received by Subscription
             </summary>
             <param name="subscriptionId">Receiving (Provider) subscription</param>
             <param name="lastReceivedProposalId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Repository.IProposalRepository.GetDemandProposal(System.String)">
+            <summary>
+            Get Demand Proposal by Proposal Id
+            </summary>
+            <param name="demandProposalId">Demand Id of the proposal</param>
             <returns></returns>
         </member>
         <member name="M:GolemClientMockAPI.Repository.ISubscriptionRepository.CreateDemandSubscription(GolemClientMockAPI.Entities.Demand)">
@@ -558,6 +634,11 @@
         <member name="T:GolemMarketMockAPI.MarketAPI.Models.NewAgreementEvent">
             <summary>
             
+            </summary>
+        </member>
+        <member name="P:GolemMarketMockAPI.MarketAPI.Models.NewAgreementEvent.AgreementId">
+            <summary>
+            Gets or Sets AgreementId
             </summary>
         </member>
         <member name="P:GolemMarketMockAPI.MarketAPI.Models.NewAgreementEvent.RequestorId">

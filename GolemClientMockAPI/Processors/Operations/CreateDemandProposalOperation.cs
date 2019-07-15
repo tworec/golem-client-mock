@@ -35,9 +35,9 @@ namespace GolemClientMockAPI.Processors.Operations
                     var receivingOfferSubscription = this.ProviderEventPipelines[this.OfferSubscriptions[offerProposalId]].Subscription;
 
                     // 2. Persist the demand proposal
-                    var demandProposal = this.ProposalRepository.SaveDemandProposal(receivingOfferSubscription.Id, demand, offerProposalId);
+                    var demandProposal = this.ProposalRepository.SaveDemandProposal(receivingOfferSubscription.Id, demandSubscriptionId, demand, offerProposalId);
 
-                    this.DemandSubscriptions.Add(demandProposal.Demand.Id, demandSubscriptionId);
+                    this.DemandSubscriptions.Add(demandProposal.Id, demandSubscriptionId);
 
                     // TODO should matching be checked here as well between the demand and responding offer proposal?
 
@@ -53,7 +53,7 @@ namespace GolemClientMockAPI.Processors.Operations
                 }
                 else
                 {
-                    throw new Exception($"OfferId {offerProposalId} not found in OfferSubscriptions mapping table...");
+                    throw new Exception($"Offer ProposalId {offerProposalId} not found in OfferSubscriptions mapping table...");
                 }
             }
             else

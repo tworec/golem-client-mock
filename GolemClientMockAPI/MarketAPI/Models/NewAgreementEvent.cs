@@ -28,9 +28,15 @@ namespace GolemMarketMockAPI.MarketAPI.Models
     public partial class NewAgreementEvent : ProviderEvent, IEquatable<NewAgreementEvent>
     { 
         /// <summary>
+        /// Gets or Sets AgreementId
+        /// </summary>
+        [DataMember(Name="agreementId")]
+        public string AgreementId { get; set; }
+
+        /// <summary>
         /// Gets or Sets RequestorId
         /// </summary>
-        [DataMember(Name="requestorId")]
+        [DataMember(Name = "requestorId")]
         public string RequestorId { get; set; }
 
         /// <summary>
@@ -59,6 +65,7 @@ namespace GolemMarketMockAPI.MarketAPI.Models
         {
             var sb = new StringBuilder();
             sb.Append("class NewAgreementEvent {\n");
+            sb.Append("  AgreementId: ").Append(AgreementId).Append("\n");
             sb.Append("  RequestorId: ").Append(RequestorId).Append("\n");
             sb.Append("  Demand: ").Append(Demand).Append("\n");
             sb.Append("  ProviderId: ").Append(ProviderId).Append("\n");
@@ -98,7 +105,12 @@ namespace GolemMarketMockAPI.MarketAPI.Models
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
 
-            return 
+            return
+                (
+                    AgreementId == other.AgreementId ||
+                    AgreementId != null &&
+                    AgreementId.Equals(other.AgreementId)
+                ) &&
                 (
                     RequestorId == other.RequestorId ||
                     RequestorId != null &&
@@ -131,7 +143,9 @@ namespace GolemMarketMockAPI.MarketAPI.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (RequestorId != null)
+                if (AgreementId != null)
+                    hashCode = hashCode * 59 + AgreementId.GetHashCode();
+                if (RequestorId != null)
                     hashCode = hashCode * 59 + RequestorId.GetHashCode();
                     if (Demand != null)
                     hashCode = hashCode * 59 + Demand.GetHashCode();
