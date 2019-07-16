@@ -13,20 +13,37 @@ namespace GolemMarketApiMockupTests
     [TestClass]
     public class MarketIntegrationTests
     {
-        [TestMethod]
-        public async Task InMemoryMarketResolver_Integration_SimplePositiveScenario()
+        public ISubscriptionRepository SubscriptionRepository { get; set; }
+        public IProposalRepository ProposalRepository { get; set; }
+        public IAgreementRepository AgreementRepository { get; set; }
+
+        public IRequestorMarketProcessor RequestorProcessor { get; set; }
+        public IProviderMarketProcessor ProviderProcessor { get; set; }
+
+        [TestInitialize]
+        public void InitializeTests()
         {
-            var subscriptionRepository = new InProcessSubscriptionProposalRepository();
-            var proposalRepository = subscriptionRepository;
-            var agreementRepository = new InProcessAgreementRepository();
+            var subsPropRepo = new InProcessSubscriptionProposalRepository();
 
-            var marketProcessor = new InMemoryMarketProcessor(subscriptionRepository, proposalRepository, agreementRepository);
+            this.SubscriptionRepository = subsPropRepo;
+            this.ProposalRepository = subsPropRepo;
+            this.AgreementRepository = new InProcessAgreementRepository();
 
-            IRequestorMarketProcessor requestorProcessor = marketProcessor;
-            IProviderMarketProcessor providerProcessor = marketProcessor;
+            var marketProcessor = new InMemoryMarketProcessor(
+                this.SubscriptionRepository, 
+                this.ProposalRepository, 
+                this.AgreementRepository);
 
-            // Test scenario
+            this.RequestorProcessor = marketProcessor;
+            this.ProviderProcessor = marketProcessor;
+        }
 
+        /// <summary>
+        /// Perform the matching part of the Market API basic scenario.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(DemandSubscription, OfferSubscription, OfferProposal)> DoDefaultDemandOfferMatching()
+        {
             // Subscribe Demand
 
             var demand = new Demand()
@@ -37,13 +54,13 @@ namespace GolemMarketApiMockupTests
                     @"(golem.com.payment.scheme=after)" +
                     @"(golem.usage.vector=[golem.usage.duration_sec])" +
                     @"(golem.com.pricing.model=linear)" +
-                    //@"(golem.com.pricing.est{[30]}<125)" +
+                //@"(golem.com.pricing.est{[30]}<125)" +
                 @")",
                 NodeId = "RequestorA", // must be assigned from the outside
                 Properties = new Dictionary<string, string>()
             };
 
-            var demandSubscription = requestorProcessor.SubscribeDemand(demand);
+            var demandSubscription = RequestorProcessor.SubscribeDemand(demand);
 
 
             Assert.IsNotNull(demandSubscription.Id);
@@ -92,8 +109,8 @@ namespace GolemMarketApiMockupTests
                 }
             };
 
-            var offer1Subscription = providerProcessor.SubscribeOffer(offer1);
-            var offer2Subscription = providerProcessor.SubscribeOffer(offer2);
+            var offer1Subscription = ProviderProcessor.SubscribeOffer(offer1);
+            var offer2Subscription = ProviderProcessor.SubscribeOffer(offer2);
 
             Assert.IsNotNull(offer1Subscription.Id);
             Assert.IsNotNull(offer1Subscription.Offer);
@@ -106,7 +123,7 @@ namespace GolemMarketApiMockupTests
 
             // ...at this point in scenario, the Collect on Requestor side should return an offer already...
 
-            var reqEvents = await requestorProcessor.CollectRequestorEventsAsync(demandSubscription.Id, 1000, 10);
+            var reqEvents = await RequestorProcessor.CollectRequestorEventsAsync(demandSubscription.Id, 1000, 10);
 
             var offerProposal = reqEvents.First();
 
@@ -116,6 +133,12 @@ namespace GolemMarketApiMockupTests
             // (SubscriptionId as perceived by Provider is different than Offer Proposal Id as seen by the Requestor)
             Assert.AreNotEqual(offer2Subscription.Id, offerProposal.OfferProposal.Id);
 
+            return (demandSubscription, offer2Subscription, offerProposal.OfferProposal);
+
+        }
+
+        public async Task<OfferProposal> DoSimpleOfferNegotiation(DemandSubscription demandSubscription, OfferSubscription offerSubscription, OfferProposal offerProposal)
+        {
             // OK, we got an offer proposal, we can now send a direct Demand counterproposal
 
             var counterDemand = new Demand()
@@ -133,17 +156,18 @@ namespace GolemMarketApiMockupTests
                 Properties = new Dictionary<string, string>()
             };
 
-            var counterDemandProposal = requestorProcessor.CreateDemandProposal(demandSubscription.Id, offerProposal.OfferProposal.Id, counterDemand);
+            var counterDemandProposal = RequestorProcessor.CreateDemandProposal(demandSubscription.Id, offerProposal.Id, counterDemand);
 
             // At this point, the Provider should be able to read the Demand Proposal on the Offer subscription
 
-            var provEvents = await providerProcessor.CollectProviderEventsAsync(offer2Subscription.Id, 1000, 10);
+            var provEvents = await ProviderProcessor.CollectProviderEventsAsync(offerSubscription.Id, 1000, 10);
 
             Assert.IsTrue(provEvents.Any());
             Assert.AreEqual(counterDemandProposal.Id, provEvents.First().DemandProposal.Id);
+            Assert.AreEqual(offerProposal.Id, provEvents.First().DemandProposal.OfferId);
 
             // ...if we call again - there should be no proposals, so a timeout is expected after 100ms
-            var provEvents2 = await providerProcessor.CollectProviderEventsAsync(offer2Subscription.Id, 100, 10);
+            var provEvents2 = await ProviderProcessor.CollectProviderEventsAsync(offerSubscription.Id, 100, 10);
 
             Assert.IsFalse(provEvents2.Any());
 
@@ -152,7 +176,7 @@ namespace GolemMarketApiMockupTests
             ICollection<RequestorEvent> reqEvents2 = null;
             Task.Run(async () =>
             {
-                reqEvents2 = await requestorProcessor.CollectRequestorEventsAsync(demandSubscription.Id, 5000, 10);
+                reqEvents2 = await RequestorProcessor.CollectRequestorEventsAsync(demandSubscription.Id, 5000, 10);
 
                 Assert.IsTrue(reqEvents2.Any());
             });
@@ -180,19 +204,42 @@ namespace GolemMarketApiMockupTests
                 }
             };
 
-            var counterOfferProposal = providerProcessor.CreateOfferProposal(offer2Subscription.Id, provEvents.First().DemandProposal.Id, counterOffer);
+            var counterOfferProposal = ProviderProcessor.CreateOfferProposal(offerSubscription.Id, provEvents.First().DemandProposal.Id, counterOffer);
 
-            Thread.Sleep(5000);
+            Thread.Sleep(1000);
 
             Assert.IsTrue(reqEvents2.Any());
+            Assert.AreEqual(counterDemandProposal.Id, reqEvents2.First().OfferProposal.DemandId);
+
+            return reqEvents2.First().OfferProposal;
+        }
+
+        public void DoSubscriptionCleanup(DemandSubscription demandSubscription, OfferSubscription offerSubscription)
+        {
+            this.RequestorProcessor.UnsubscribeDemand(demandSubscription.Id);
+            this.ProviderProcessor.UnsubscribeOffer(offerSubscription.Id);
+        }
+
+        [TestMethod]
+        public async Task InMemoryMarketResolver_Integration_SimplePositiveScenario()
+        {
+            // Test scenario
+
+            // Subscribe Demand
+
+            var (demandSubscription, offerSubscription, offerProposal) = await this.DoDefaultDemandOfferMatching();
+
+            // OK, we got an offer proposal, let's haggle a bit...
+
+            var lastOfferProposal = await this.DoSimpleOfferNegotiation(demandSubscription, offerSubscription, offerProposal);
 
             // OK, so the reqEvents2 now contains an offer which is acceptable.
             // Requestor can move on to propose Agreement...
 
-            var agreement = requestorProcessor.CreateAgreement(demandSubscription.Id, reqEvents2.First().OfferProposal.Id);
+            var agreement = RequestorProcessor.CreateAgreement(lastOfferProposal.Id);
 
             Assert.IsNotNull(agreement);
-            Assert.AreEqual(reqEvents2.First().OfferProposal.Id, agreement.Id);
+            Assert.AreEqual(lastOfferProposal.Id, agreement.Id);
             Assert.AreEqual(AgreementState.New, agreement.State);
             Assert.IsNotNull(agreement.Demand);
 
@@ -200,27 +247,141 @@ namespace GolemMarketApiMockupTests
             AgreementResultEnum? agreementResponse = null;
             Task.Run(async () =>
             {
-                agreementResponse = await requestorProcessor.ConfirmAgreementAsync(agreement.Id, 5000);
+                agreementResponse = await RequestorProcessor.ConfirmAgreementAsync(agreement.Id, 5000);
 
                 Assert.IsNotNull(agreementResponse);
             });
 
 
-            // ...in the meantime - collect the Agreement prpoosal on Provider side and send response
+            // ...in the meantime - collect the Agreement proposal on Provider side and send response
 
-            var provEvents3 = await providerProcessor.CollectProviderEventsAsync(offer2Subscription.Id, 100000, 10);
+            var provEvents3 = await ProviderProcessor.CollectProviderEventsAsync(offerSubscription.Id, 100000, 10);
 
             Assert.IsTrue(provEvents3.Any());
             var receivedAgreementProposal = provEvents3.First();
 
             Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
 
-            providerProcessor.ApproveAgreement(receivedAgreementProposal.Agreement.Id);
+            ProviderProcessor.ApproveAgreement(receivedAgreementProposal.Agreement.Id);
 
-            Thread.Sleep(100);
+            Thread.Sleep(1000);
 
             Assert.AreEqual(AgreementResultEnum.Approved, agreementResponse);
 
+            DoSubscriptionCleanup(demandSubscription, offerSubscription);
+
+        }
+
+        [TestMethod]
+        public async Task InMemoryMarketResolver_Integration_AgreementRejectedScenario()
+        {
+            // Test scenario
+
+            // Subscribe Demand
+
+            var (demandSubscription, offerSubscription, offerProposal) = await this.DoDefaultDemandOfferMatching();
+
+            // OK, we got an offer proposal, let's haggle a bit...
+
+            var lastOfferProposal = await this.DoSimpleOfferNegotiation(demandSubscription, offerSubscription, offerProposal);
+
+            // OK, so the reqEvents2 now contains an offer which is acceptable.
+            // Requestor can move on to propose Agreement...
+
+            var agreement = RequestorProcessor.CreateAgreement(lastOfferProposal.Id);
+
+            Assert.IsNotNull(agreement);
+            Assert.AreEqual(lastOfferProposal.Id, agreement.Id);
+            Assert.AreEqual(AgreementState.New, agreement.State);
+            Assert.IsNotNull(agreement.Demand);
+
+            // Confirm and start waiting for Agreement proposal response
+            AgreementResultEnum? agreementResponse = null;
+            Task.Run(async () =>
+            {
+                agreementResponse = await RequestorProcessor.ConfirmAgreementAsync(agreement.Id, 5000);
+
+                Assert.IsNotNull(agreementResponse);
+            });
+
+
+            // ...in the meantime - collect the Agreement proposal on Provider side and send response
+
+            var provEvents3 = await ProviderProcessor.CollectProviderEventsAsync(offerSubscription.Id, 100000, 10);
+
+            Assert.IsTrue(provEvents3.Any());
+            var receivedAgreementProposal = provEvents3.First();
+
+            Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
+
+            ProviderProcessor.RejectAgreement(receivedAgreementProposal.Agreement.Id);
+
+            Thread.Sleep(1000);
+
+            Assert.AreEqual(AgreementResultEnum.Rejected, agreementResponse);
+
+            DoSubscriptionCleanup(demandSubscription, offerSubscription);
+
+        }
+
+        [TestMethod]
+        public async Task InMemoryMarketResolver_Integration_AgreementCancelledScenario()
+        {
+            // Test scenario
+
+            // Subscribe Demand
+
+            var (demandSubscription, offerSubscription, offerProposal) = await this.DoDefaultDemandOfferMatching();
+
+            // OK, we got an offer proposal, let's haggle a bit...
+
+            var lastOfferProposal = await this.DoSimpleOfferNegotiation(demandSubscription, offerSubscription, offerProposal);
+
+            // OK, so the reqEvents2 now contains an offer which is acceptable.
+            // Requestor can move on to propose Agreement...
+
+            var agreement = RequestorProcessor.CreateAgreement(lastOfferProposal.Id);
+
+            Assert.IsNotNull(agreement);
+            Assert.AreEqual(lastOfferProposal.Id, agreement.Id);
+            Assert.AreEqual(AgreementState.New, agreement.State);
+            Assert.IsNotNull(agreement.Demand);
+
+            // Confirm and start waiting for Agreement proposal response
+            AgreementResultEnum? agreementResponse = null;
+            Task.Run(async () =>
+            {
+                agreementResponse = await RequestorProcessor.ConfirmAgreementAsync(agreement.Id, 5000);
+
+                Assert.IsNotNull(agreementResponse);
+            });
+
+            Thread.Sleep(500); // wait a little to allow the Confirm to be sent, and then...
+
+            RequestorProcessor.CancelAgreement(agreement.Id);
+
+            // ...in the meantime - collect the Agreement proposal on Provider side and send response
+
+            var provEvents3 = await ProviderProcessor.CollectProviderEventsAsync(offerSubscription.Id, 100000, 10);
+
+            // TODO in Cancel implementation...
+            // If Agreement Proposal hasn't been yet collected - simply remove it from pipeline
+            // otherwise - block the agreement response pipeline with some cancel token
+            // so that attempt to Approve ends with Agreement cancelled error...
+
+
+            Assert.IsTrue(provEvents3.Any());
+            var receivedAgreementProposal = provEvents3.First();
+
+            Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
+
+            ProviderProcessor.RejectAgreement(receivedAgreementProposal.Agreement.Id);
+
+            Thread.Sleep(1000);
+
+            Assert.AreEqual(AgreementResultEnum.Rejected, agreementResponse);
+
+            DoSubscriptionCleanup(demandSubscription, offerSubscription);
         }
 
 

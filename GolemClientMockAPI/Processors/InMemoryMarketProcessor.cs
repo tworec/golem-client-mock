@@ -71,7 +71,8 @@ namespace GolemClientMockAPI.Processors
                 this.ProposalRepository, 
                 this.RequestorEventPipelines,
                 this.DemandSubscriptions,
-                this.ProviderEventPipelines
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions
                 ).Run(demand);
         }
 
@@ -96,7 +97,7 @@ namespace GolemClientMockAPI.Processors
                 ).Run(demandSubscriptionId, offerProposalId, demand);
         }
 
-        public Agreement CreateAgreement(string subscriptionId, string offerProposalId)
+        public Agreement CreateAgreement(string offerProposalId)
         {
             return new CreateAgreementOperation(
                 this.SubscriptionRepository,
@@ -106,12 +107,40 @@ namespace GolemClientMockAPI.Processors
                 this.DemandSubscriptions,
                 this.ProviderEventPipelines,
                 this.OfferSubscriptions
-                ).Run(subscriptionId, offerProposalId);
+                ).Run(offerProposalId);
         }
 
         public Task<AgreementResultEnum> ConfirmAgreementAsync(string agreementId, float? timeout)
         {
             return new ConfirmAgreementOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.AgreementRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions,
+                this.AgreementResultPipelines
+                ).Run(agreementId, timeout);
+        }
+
+        public void SendConfirmAgreement(string agreementId)
+        {
+            new SendConfirmAgreementOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.AgreementRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions,
+                this.AgreementResultPipelines
+                ).Run(agreementId);
+        }
+
+        public Task<AgreementResultEnum> WaitConfirmAgreementResponseAsync(string agreementId, float? timeout)
+        {
+            return new WaitConfirmAgreementResultOperation(
                 this.SubscriptionRepository,
                 this.ProposalRepository,
                 this.AgreementRepository,
@@ -130,7 +159,14 @@ namespace GolemClientMockAPI.Processors
 
         public void UnsubscribeDemand(string subscriptionId)
         {
-            throw new NotImplementedException();
+            new UnsubscribeDemandOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions
+                ).Run(subscriptionId);
         }
 
         #endregion
@@ -199,7 +235,14 @@ namespace GolemClientMockAPI.Processors
 
         public void UnsubscribeOffer(string subscriptionId)
         {
-            throw new NotImplementedException();
+            new UnsubscribeOfferOperation(
+                this.SubscriptionRepository,
+                this.ProposalRepository,
+                this.RequestorEventPipelines,
+                this.DemandSubscriptions,
+                this.ProviderEventPipelines,
+                this.OfferSubscriptions
+                ).Run(subscriptionId);
         }
 
         #endregion

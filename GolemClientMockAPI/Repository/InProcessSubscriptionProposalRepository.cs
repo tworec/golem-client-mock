@@ -143,6 +143,25 @@ namespace GolemClientMockAPI.Repository
             }
         }
 
+        protected void DeleteSubscription(string subscriptionId)
+        {
+            if (this.Subscriptions.ContainsKey(subscriptionId))
+            {
+                this.Subscriptions.Remove(subscriptionId);
+                this.SubscriptionProposals.Remove(subscriptionId);
+            }
+        }
+
+        public void DeleteDemandSubscription(string subscriptionId)
+        {
+            this.DeleteSubscription(subscriptionId);
+        }
+
+        public void DeleteOfferSubscription(string subscriptionId)
+        {
+            this.DeleteSubscription(subscriptionId);
+        }
+
         #endregion
 
         #region IProposalRepository implementations

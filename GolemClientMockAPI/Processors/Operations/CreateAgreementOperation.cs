@@ -21,7 +21,7 @@ namespace GolemClientMockAPI.Processors.Operations
         {
         }
 
-        public Agreement Run(string demandSubscriptionId, string offerProposalId)
+        public Agreement Run(string offerProposalId)
         {
             // 0. Validate the subscription
             var offerProposal = this.ProposalRepository.GetOfferProposal(offerProposalId);
@@ -52,7 +52,7 @@ namespace GolemClientMockAPI.Processors.Operations
             }
             else
             {
-                throw new Exception($"Demand Subscription {demandSubscriptionId} does not exist...");
+                throw new Exception($"Demand Subscription for Offer ProposalId {offerProposalId} does not exist...");
             }
         }
     }

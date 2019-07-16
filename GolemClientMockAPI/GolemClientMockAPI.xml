@@ -189,6 +189,13 @@
             <param name="subscriptionId"></param>
             <returns>null if Demand Subscription not found.</returns>
         </member>
+        <member name="M:GolemClientMockAPI.Repository.ISubscriptionRepository.DeleteDemandSubscription(System.String)">
+            <summary>
+            Remove the Demand subscription.
+            </summary>
+            <param name="subscriptionId"></param>
+            <returns></returns>
+        </member>
         <member name="M:GolemClientMockAPI.Repository.ISubscriptionRepository.UpdateLastProposalId(System.String,System.Nullable{System.Int32})">
             <summary>
             Persist the most recently returned Proposal Id against Subscription, 
@@ -210,6 +217,13 @@
             </summary>
             <param name="subscriptionId"></param>
             <returns>null if Offer Subscription not found.</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Repository.ISubscriptionRepository.DeleteOfferSubscription(System.String)">
+            <summary>
+            Remove the Offer subscription.
+            </summary>
+            <param name="subscriptionId"></param>
+            <returns></returns>
         </member>
         <member name="T:GolemClientMockAPI.Startup">
             <summary>

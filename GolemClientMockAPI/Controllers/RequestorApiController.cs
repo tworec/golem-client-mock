@@ -74,12 +74,25 @@ namespace GolemMarketMockAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("CancelAgreement")]
         public virtual IActionResult CancelAgreement([FromRoute][Required]string agreementId)
-        { 
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
+        {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
 
+            // locate the agreement
+            var agreement = this.AgreementRepository.GetAgreement(agreementId);
 
-            throw new NotImplementedException();
+            if (agreement == null)
+            {
+                return StatusCode(404); // Not Found
+            }
+
+            if (clientContext.NodeId != agreement.Demand.NodeId)
+            {
+                return StatusCode(401); // Unauthorized
+            }
+
+            this.MarketProcessor.CancelAgreement(agreementId);
+
+            return StatusCode(204);
         }
 
         /// <summary>
@@ -131,12 +144,25 @@ namespace GolemMarketMockAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("ConfirmAgreement")]
         public virtual IActionResult ConfirmAgreement([FromRoute][Required]string agreementId)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
+        {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
 
+            // locate the agreement
+            var agreement = this.AgreementRepository.GetAgreement(agreementId);
 
-            throw new NotImplementedException();
+            if (agreement == null)
+            {
+                return StatusCode(404); // Not Found
+            }
+
+            if (clientContext.NodeId != agreement.Demand.NodeId)
+            {
+                return StatusCode(401); // Unauthorized
+            }
+
+            this.MarketProcessor.SendConfirmAgreement(agreementId);
+
+            return StatusCode(200);
         }
 
         /// <summary>
@@ -151,21 +177,27 @@ namespace GolemMarketMockAPI.Controllers
         [SwaggerOperation("CreateAgreement")]
         public virtual IActionResult CreateAgreement([FromBody]Agreement agreement)
         {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
+
             // locate the offerProposalId
             var offerProposal = this.ProposalRepository.GetOfferProposal(agreement.ProposalId);
+
+            var receivingSubscription = this.SubscriptionRepository.GetDemandSubscription(offerProposal.ReceivingSubscriptionId);
 
             if (offerProposal == null)
             {
                 return StatusCode(404); // Not Found
             }
 
-            //this.ProposalRepository.
+            if (clientContext.NodeId != receivingSubscription.Demand.NodeId)
+            {
+                return StatusCode(401); // Unauthorized
+            }
 
-            this.MarketProcessor.CreateAgreement("", agreement.ProposalId);
+            var resultAgreement = this.MarketProcessor.CreateAgreement(agreement.ProposalId);
 
-           
+            return StatusCode(201);
 
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -344,15 +376,24 @@ namespace GolemMarketMockAPI.Controllers
         [ValidateModelState]
         [SwaggerOperation("Unsubscribe")]
         public virtual IActionResult Unsubscribe([FromRoute][Required]string subscriptionId)
-        { 
-            //TODO: Uncomment the next line to return response 204 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(204);
+        {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
 
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404);
+            var subscription = this.SubscriptionRepository.GetDemandSubscription(subscriptionId);
 
+            if (subscription == null)
+            {
+                return StatusCode(404); // Not Found
+            }
 
-            throw new NotImplementedException();
+            if (clientContext.NodeId != subscription.Demand.NodeId)
+            {
+                return StatusCode(401); // Unauthorized
+            }
+
+            this.MarketProcessor.UnsubscribeDemand(subscriptionId);
+
+            return StatusCode(204);
         }
 
         /// <summary>
@@ -365,13 +406,37 @@ namespace GolemMarketMockAPI.Controllers
         [Route("/market-api/v1/agreements/{agreementId}/wait")]
         [ValidateModelState]
         [SwaggerOperation("WaitForApproval")]
-        public virtual IActionResult WaitForApproval([FromRoute][Required]string agreementId)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
+        public async virtual Task<IActionResult> WaitForApproval([FromRoute][Required]string agreementId)
+        {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
+
+            // locate the agreement
+            var agreement = this.AgreementRepository.GetAgreement(agreementId);
+
+            if (agreement == null)
+            {
+                return StatusCode(404); // Not Found
+            }
+
+            if (clientContext.NodeId != agreement.Demand.NodeId)
+            {
+                return StatusCode(401); // Unauthorized
+            }
 
 
-            throw new NotImplementedException();
+            var result = await this.MarketProcessor.WaitConfirmAgreementResponseAsync(agreementId, 10000);
+
+            switch (result)
+            {
+                case GolemClientMockAPI.Entities.AgreementResultEnum.Approved:
+                    return StatusCode(200);
+                case GolemClientMockAPI.Entities.AgreementResultEnum.Rejected:
+                    return StatusCode(406); // Not Acceptable = Rejected
+                case GolemClientMockAPI.Entities.AgreementResultEnum.Timeout:
+                default:
+                    return StatusCode(408); // Timeout
+            }
+            
         }
     }
 }

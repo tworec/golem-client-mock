@@ -136,7 +136,12 @@ namespace GolemClientMockAPI
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             app
-                .UseMvc()
+                .UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Home}/{action=Index}/{id?}");
+                })
                 .UseDefaultFiles()
                 .UseStaticFiles()
                 .UseSwagger()
