@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using GolemClientMockAPI.Entities;
+using GolemClientMockAPI.Mappers;
+using GolemClientMockAPI.Models;
 
 namespace GolemClientMockAPI.Repository
 {
-    public class InProcessSubscriptionProposalRepository : ISubscriptionRepository, IProposalRepository
+    public class InProcessSubscriptionProposalRepository : ISubscriptionRepository, IProposalRepository, IStatsRepository
     {
         public object SubscriptionsLock { get; set; } = new object();
 
@@ -63,11 +65,14 @@ namespace GolemClientMockAPI.Repository
         {
             var newInternalId = GetNextSubscriptionInternalId();
             var newId = "" + Guid.NewGuid();
+            var now = DateTime.Now;
 
             var result = new DemandSubscription()
             {
                 Demand = demand,
                 Id = newId,
+                CreatedDate = now,
+                LastActiveDate = now,
                 LastReceivedProposalId = null
             };
 
@@ -86,11 +91,14 @@ namespace GolemClientMockAPI.Repository
         {
             var newInternalId = GetNextSubscriptionInternalId();
             var newId = "" + Guid.NewGuid();
+            var now = DateTime.Now;
 
             var result = new OfferSubscription()
             {
                 Offer = offer,
                 Id = newId,
+                CreatedDate = now,
+                LastActiveDate = now,
                 LastReceivedProposalId = null
             };
 
@@ -142,6 +150,20 @@ namespace GolemClientMockAPI.Repository
                 throw new Exception($"Subscription Id {subscriptionId} not found!");
             }
         }
+
+        public void UpdateLastActive(string subscriptionId, DateTime timestamp)
+        {
+            if (this.Subscriptions.ContainsKey(subscriptionId))
+            {
+                var subscr = this.Subscriptions[subscriptionId];
+                subscr.LastActiveDate = timestamp;
+            }
+            else
+            {
+                throw new Exception($"Subscription Id {subscriptionId} not found!");
+            }
+        }
+
 
         protected void DeleteSubscription(string subscriptionId)
         {
@@ -268,6 +290,118 @@ namespace GolemClientMockAPI.Repository
             }
 
             return this.DemandProposals[demandProposalId];
+        }
+
+        #endregion
+
+        #region IStatsRepository
+
+        public MarketStats GetMarketStats()
+        {
+            var result = new MarketStats()
+            {
+                Requestors = this.Subscriptions.Values
+                                 .Where(subs => subs is DemandSubscription)
+                                 .Select(sub => sub as DemandSubscription)
+                                 .GroupBy(sub => sub.Demand.NodeId)
+                                 .Select(node =>
+                                    new NodeStats()
+                                    {
+                                        NodeId = node.Key,
+                                        SubscriptionCount = node.Count(),
+                                        Connected = node.Min(sub => sub.CreatedDate),
+                                        LastActive = node.Max(sub => sub.LastActiveDate)
+                                    }
+                                 ).ToList(),
+                Providers = this.Subscriptions.Values
+                                 .Where(subs => subs is OfferSubscription)
+                                 .Select(sub => sub as OfferSubscription)
+                                 .GroupBy(sub => sub.Offer.NodeId)
+                                 .Select(node =>
+                                    new NodeStats()
+                                    {
+                                        NodeId = node.Key,
+                                        SubscriptionCount = node.Count(),
+                                        Connected = node.Min(sub => sub.CreatedDate),
+                                        LastActive = node.Max(sub => sub.LastActiveDate)
+                                    }
+                                 ).ToList(),
+
+            };
+
+            return result;
+        }
+
+        public NodeStats GetNodeDetails(string nodeId)
+        {
+            var result = this.Subscriptions.Values
+                            .Where(sub =>
+                            {
+                                if (sub is OfferSubscription)
+                                {
+                                    return (sub as OfferSubscription).Offer.NodeId == nodeId;
+                                }
+                                else
+                                {
+                                    return (sub as DemandSubscription).Demand.NodeId == nodeId;
+                                }
+                            })
+                            .GroupBy(sub =>
+                            {
+                                if (sub is OfferSubscription)
+                                {
+                                    return (sub as OfferSubscription).Offer.NodeId;
+                                }
+                                else
+                                {
+                                    return (sub as DemandSubscription).Demand.NodeId;
+                                }
+
+                            })
+                            .Select(subGrp =>
+                                new NodeStats()
+                                {
+                                    NodeId = nodeId,
+                                    SubscriptionCount = subGrp.Count(),
+                                    Subscriptions = subGrp.Select(sub =>
+                                    {
+                                        if (sub is OfferSubscription)
+                                        {
+                                            var off = sub as OfferSubscription;
+
+                                            return new SubscriptionStats()
+                                            {
+                                                Constraints = off.Offer.Constraints,
+                                                Properties = PropertyMappers.MapToJsonString(off.Offer.Properties),
+                                                SubscriptionId = off.Id
+                                            };
+                                        }
+                                        else
+                                        {
+                                            var dem = sub as DemandSubscription;
+
+                                            return new SubscriptionStats()
+                                            {
+                                                Constraints = dem.Demand.Constraints,
+                                                Properties = PropertyMappers.MapToJsonString(dem.Demand.Properties),
+                                                SubscriptionId = dem.Id
+                                            };
+                                        }
+
+                                    }),
+                                    Connected = subGrp.Min(sub => sub.CreatedDate),
+                                    LastActive = subGrp.Max(sub => sub.LastActiveDate)
+                                }
+
+                            )
+                            .FirstOrDefault();
+            return result;
+                            
+        }
+
+        public SubscriptionStats GetSubscriptionDetails(string nodeId, string subscriptionId)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolemMarketApiMockupTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolemMarketApiMockupRunner", "GolemMarketApiMockupRunner\GolemMarketApiMockupRunner.csproj", "{97A9E249-D1A4-4E3B-BCA6-A02D39604BB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GolemClientMockAPI", "GolemClientMockAPI\GolemClientMockAPI.csproj", "{23006AEE-B834-4BB6-9F92-F3504EAD6649}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GolemClientMockAPI", "GolemClientMockAPI\GolemClientMockAPI.csproj", "{23006AEE-B834-4BB6-9F92-F3504EAD6649}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IO.Swagger", "IO.Swagger\IO.Swagger.csproj", "{ACDD9850-A8CC-4894-8680-4807B84D7728}"
 EndProject

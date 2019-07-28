@@ -25,6 +25,7 @@ using GolemClientMockAPI.Mappers;
 using Autofac;
 using GolemClientMockAPI.Modules;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 
 namespace GolemClientMockAPI
 {
@@ -111,7 +112,14 @@ namespace GolemClientMockAPI
                     c.OperationFilter<GeneratePathParamsValidationFilter>();
                 });
 
-            
+
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
+
+
 
             // replace container with autofac
 
@@ -163,6 +171,17 @@ namespace GolemClientMockAPI
                 //TODO: Enable production exception handling (https://docs.microsoft.com/en-us/aspnet/core/fundamentals/error-handling)
                 // app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+            });
+
         }
     }
 }

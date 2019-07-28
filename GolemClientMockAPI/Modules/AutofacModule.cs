@@ -35,6 +35,7 @@ namespace GolemClientMockAPI.Modules
             builder.RegisterType<InProcessSubscriptionProposalRepository>()
                 .As<ISubscriptionRepository>()
                 .As<IProposalRepository>()
+                .As<IStatsRepository>()
                 .SingleInstance();
         }
     }

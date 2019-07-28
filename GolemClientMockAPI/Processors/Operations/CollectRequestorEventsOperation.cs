@@ -28,6 +28,8 @@ namespace GolemClientMockAPI.Processors.Operations
 
                 var subscription = this.SubscriptionRepository.GetDemandSubscription(subscriptionId);
 
+                this.SubscriptionRepository.UpdateLastActive(subscriptionId, DateTime.Now);
+
                 // First check if there aren't any unfetched events in the subscription
 
                 var recordedProposals = this.ProposalRepository.GetOfferProposals(subscriptionId, subscription.LastReceivedProposalId).OrderBy(prop => prop.InternalId);

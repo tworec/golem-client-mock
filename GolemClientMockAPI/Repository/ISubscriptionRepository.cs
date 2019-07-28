@@ -38,6 +38,13 @@ namespace GolemClientMockAPI.Repository
         void UpdateLastProposalId(string subscriptionId, int? internalId);
 
         /// <summary>
+        /// Persist the LastActiveDate for a subscription. 
+        /// </summary>
+        /// <param name="subscriptionId"></param>
+        /// <param name="timestamp"></param>
+        void UpdateLastActive(string subscriptionId, DateTime timestamp);
+
+        /// <summary>
         /// Persist the Offer subscription.
         /// </summary>
         /// <param name="offer"></param>

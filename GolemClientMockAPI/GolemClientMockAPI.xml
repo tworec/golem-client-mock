@@ -204,6 +204,13 @@
             <param name="subscriptionId"></param>
             <param name="internalId"></param>
         </member>
+        <member name="M:GolemClientMockAPI.Repository.ISubscriptionRepository.UpdateLastActive(System.String,System.DateTime)">
+            <summary>
+            Persist the LastActiveDate for a subscription. 
+            </summary>
+            <param name="subscriptionId"></param>
+            <param name="timestamp"></param>
+        </member>
         <member name="M:GolemClientMockAPI.Repository.ISubscriptionRepository.CreateOfferSubscription(GolemClientMockAPI.Entities.Offer)">
             <summary>
             Persist the Offer subscription.

@@ -11,5 +11,8 @@ namespace GolemClientMockAPI.Entities
 
         public long? LastReceivedProposalId { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime LastActiveDate { get; set; }
     }
 }

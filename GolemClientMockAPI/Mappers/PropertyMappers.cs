@@ -9,6 +9,11 @@ namespace GolemClientMockAPI.Mappers
 {
     public class PropertyMappers
     {
+        public static string MapToJsonString(IDictionary<string, string> props)
+        {
+            return JsonConvert.SerializeObject(props);
+        }
+
         public static IDictionary<string, string> MapFromJsonString(string propertiesJson)
         {
             var deserialized = JsonConvert.DeserializeObject(propertiesJson) as JObject;

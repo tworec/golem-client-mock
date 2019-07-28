@@ -31,6 +31,8 @@ namespace GolemClientMockAPI.Processors.Operations
 
                 var subscription = this.SubscriptionRepository.GetOfferSubscription(subscriptionId);
 
+                this.SubscriptionRepository.UpdateLastActive(subscriptionId, DateTime.Now);
+
                 // First check if there aren't any unfetched demend proposals in the subscription
                 // NOTE: This is for demand prospoals only. Should Agreement proposals be persisted in DB too???
 
