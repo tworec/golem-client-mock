@@ -12,9 +12,9 @@ namespace GolemClientMockAPI.Processors.Operations
     {
         public SubscribeOfferOperation(ISubscriptionRepository subscriptionRepo,
                                         IProposalRepository proposalRepo,
-                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines,
                                         IDictionary<string, string> demandSubscriptions,
-                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> providerEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> providerEventPipelines,
                                         IDictionary<string, string> offerSubscriptions) 
             : base(subscriptionRepo, proposalRepo, null, requestorEventPipelines, demandSubscriptions, providerEventPipelines, offerSubscriptions)
         {
@@ -27,7 +27,7 @@ namespace GolemClientMockAPI.Processors.Operations
             var offerSubscription = this.SubscriptionRepository.CreateOfferSubscription(offer);
 
             // 2. Construct the pipeline
-            var pipeline = new SubscriptionPipeline<OfferSubscription, ProviderEvent>()
+            var pipeline = new SubscriptionPipeline<OfferSubscription, MarketProviderEvent>()
             {
                 Subscription = offerSubscription
             };
@@ -58,9 +58,9 @@ namespace GolemClientMockAPI.Processors.Operations
                         this.OfferSubscriptions.Add(offerProposal.Id, offerSubscription.Id);
 
                         // build Requestor OfferProposal event and put in Requestor pipeline
-                        var requestorEvent = new RequestorEvent()
+                        var requestorEvent = new MarketRequestorEvent()
                         {
-                            EventType = RequestorEvent.RequestorEventType.Proposal,
+                            EventType = MarketRequestorEvent.MarketRequestorEventType.Proposal,
                             OfferProposal = offerProposal,
                             ProviderId = offer.NodeId
                         };

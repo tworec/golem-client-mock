@@ -12,18 +12,18 @@ namespace GolemClientMockAPI.Processors.Operations
     {
         public CollectProviderEventsOperation(ISubscriptionRepository subscriptionRepo,
                                         IProposalRepository proposalRepo,
-                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines,
                                         IDictionary<string, string> demandSubscriptions,
-                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> providerEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> providerEventPipelines,
                                         IDictionary<string, string> offerSubscriptions) 
             : base(subscriptionRepo, proposalRepo, null, requestorEventPipelines, demandSubscriptions, providerEventPipelines, offerSubscriptions)
         {
 
         }
 
-        public async Task<ICollection<ProviderEvent>> Run(string subscriptionId, float? timeout, int? maxEvents)
+        public async Task<ICollection<MarketProviderEvent>> Run(string subscriptionId, float? timeout, int? maxEvents)
         {
-            var result = new List<ProviderEvent>();
+            var result = new List<MarketProviderEvent>();
 
             if (this.ProviderEventPipelines.ContainsKey(subscriptionId))
             {
@@ -43,9 +43,9 @@ namespace GolemClientMockAPI.Processors.Operations
                     var lastProposalInternalId = recordedProposals.Last().InternalId;
 
                     // put the proposals in response
-                    result.AddRange(recordedProposals.Select(prop => new ProviderEvent()
+                    result.AddRange(recordedProposals.Select(prop => new MarketProviderEvent()
                     {
-                        EventType = ProviderEvent.ProviderEventType.Proposal,
+                        EventType = MarketProviderEvent.MarketProviderEventType.Proposal,
                         DemandProposal = prop,
                         RequestorId = prop.Demand.NodeId
                     }));
@@ -58,16 +58,16 @@ namespace GolemClientMockAPI.Processors.Operations
 
                         switch (provEvent.EventType)
                         {
-                            case ProviderEvent.ProviderEventType.PropertyQuery:
+                            case MarketProviderEvent.MarketProviderEventType.PropertyQuery:
                                 result.Add(provEvent);
                                 break;
-                            case ProviderEvent.ProviderEventType.Proposal:
+                            case MarketProviderEvent.MarketProviderEventType.Proposal:
                                 if (provEvent.DemandProposal.InternalId > lastProposalInternalId)
                                 {
                                     result.Add(provEvent);
                                 }
                                 break;
-                            case ProviderEvent.ProviderEventType.AgreementProposal:
+                            case MarketProviderEvent.MarketProviderEventType.AgreementProposal:
                                 result.Add(provEvent);
                                 break;
                             default:
@@ -81,11 +81,11 @@ namespace GolemClientMockAPI.Processors.Operations
                 }
                 else
                 {
-                    var receivedEvents = (await Task<ICollection<ProviderEvent>>.Run<ICollection<ProviderEvent>>(() =>
+                    var receivedEvents = (await Task<ICollection<MarketProviderEvent>>.Run<ICollection<MarketProviderEvent>>(() =>
                     {
-                        var pipelineResult = new List<ProviderEvent>();
+                        var pipelineResult = new List<MarketProviderEvent>();
 
-                        if (pipeline.PipelineQueue.TryTake(out ProviderEvent reqEvent, (int)timeout))
+                        if (pipeline.PipelineQueue.TryTake(out MarketProviderEvent reqEvent, (int)timeout))
                         {
                             pipelineResult.Add(reqEvent);
                         }

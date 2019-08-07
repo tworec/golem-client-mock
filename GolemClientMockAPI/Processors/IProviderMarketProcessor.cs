@@ -10,7 +10,7 @@ namespace GolemClientMockAPI.Processors
     {
         OfferSubscription SubscribeOffer(Offer offer);
 
-        Task<ICollection<ProviderEvent>> CollectProviderEventsAsync(string subscriptionId, float? timeout, int? maxEvents);
+        Task<ICollection<MarketProviderEvent>> CollectProviderEventsAsync(string subscriptionId, float? timeout, int? maxEvents);
 
         OfferProposal CreateOfferProposal(string subscriptionId, string demandProposalId, Offer offer);
 

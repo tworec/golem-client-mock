@@ -19,7 +19,7 @@ namespace GolemClientMockAPI.Processors.Operations
         /// <summary>
         /// Requestor subscription pipelines, indexed by SubscriptionId
         /// </summary>
-        protected IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> RequestorEventPipelines;
+        protected IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> RequestorEventPipelines;
 
         /// <summary>
         /// Dictionary of Demand subscriptionIds indexed by Demand/Proposal Ids which have been issued in those subscriptions.
@@ -29,7 +29,7 @@ namespace GolemClientMockAPI.Processors.Operations
         /// <summary>
         /// Provider subscription pipelines, indexed by SubscriptionId
         /// </summary>
-        protected IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> ProviderEventPipelines;
+        protected IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> ProviderEventPipelines;
 
         /// <summary>
         /// Dictionary of Offer subscriptionIds indexed by Offer/Proposal Ids which have been issued in those subscriptions.
@@ -40,9 +40,9 @@ namespace GolemClientMockAPI.Processors.Operations
             ISubscriptionRepository subscriptionRepo,
             IProposalRepository proposalRepo,
             IAgreementRepository agreementRepo,
-            IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines,
+            IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines,
             IDictionary<string, string> demandSubscriptions,
-            IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> providerEventPipelines,
+            IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> providerEventPipelines,
             IDictionary<string, string> offerSubscriptions
             )
         {

@@ -29,7 +29,7 @@ namespace GolemClientMockAPI.Processors
         /// <summary>
         /// Requestor subscription pipelines, indexed by SubscriptionId
         /// </summary>
-        protected IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> RequestorEventPipelines = new Dictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>>();
+        protected IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> RequestorEventPipelines = new Dictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>>();
 
         /// <summary>
         /// Dictionary of Demand subscriptionIds indexed by Demand/Proposal Ids which have been issued in those subscriptions.
@@ -39,7 +39,7 @@ namespace GolemClientMockAPI.Processors
         /// <summary>
         /// Provider subscription pipelines, indexed by SubscriptionId
         /// </summary>
-        protected IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> ProviderEventPipelines = new Dictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>>();
+        protected IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> ProviderEventPipelines = new Dictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>>();
 
         /// <summary>
         /// Dictionary of Offer subscriptionIds indexed by Offer/Proposal Ids which have been issued in those subscriptions.
@@ -76,7 +76,7 @@ namespace GolemClientMockAPI.Processors
                 ).Run(demand);
         }
 
-        public Task<ICollection<RequestorEvent>> CollectRequestorEventsAsync(string subscriptionId, float? timeout, int? maxEvents)
+        public Task<ICollection<MarketRequestorEvent>> CollectRequestorEventsAsync(string subscriptionId, float? timeout, int? maxEvents)
         {
             return new CollectRequestorEventsOperation(
                 this.SubscriptionRepository,
@@ -185,7 +185,7 @@ namespace GolemClientMockAPI.Processors
                 ).Run(offer);
         }
 
-        public Task<ICollection<ProviderEvent>> CollectProviderEventsAsync(string subscriptionId, float? timeout, int? maxEvents)
+        public Task<ICollection<MarketProviderEvent>> CollectProviderEventsAsync(string subscriptionId, float? timeout, int? maxEvents)
         {
             return new CollectProviderEventsOperation(
                 this.SubscriptionRepository,

@@ -16,9 +16,9 @@ namespace GolemClientMockAPI.Processors.Operations
         public ConfirmAgreementBase(ISubscriptionRepository subscriptionRepo,
                                         IProposalRepository proposalRepo,
                                         IAgreementRepository agreementRepo,
-                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines,
                                         IDictionary<string, string> demandSubscriptions,
-                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> providerEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> providerEventPipelines,
                                         IDictionary<string, string> offerSubscriptions,
                                         IDictionary<string, BlockingCollection<AgreementResultEnum>> agreementResultPipelines) 
             : base(subscriptionRepo, proposalRepo, agreementRepo, requestorEventPipelines, demandSubscriptions, providerEventPipelines, offerSubscriptions)
@@ -49,9 +49,9 @@ namespace GolemClientMockAPI.Processors.Operations
                     var receivingOfferSubscription = this.ProviderEventPipelines[this.OfferSubscriptions[providerSubscriptionId]].Subscription;
 
                     this.ProviderEventPipelines[this.OfferSubscriptions[providerSubscriptionId]].PipelineQueue.Add(
-                        new ProviderEvent()
+                        new MarketProviderEvent()
                         {
-                            EventType = ProviderEvent.ProviderEventType.AgreementProposal,
+                            EventType = MarketProviderEvent.MarketProviderEventType.AgreementProposal,
                             Agreement = agreement,
                             RequestorId = agreement.Demand.NodeId
                         });
@@ -87,7 +87,7 @@ namespace GolemClientMockAPI.Processors.Operations
                 {
                     var receivedResponse = (await Task<AgreementResultEnum>.Run<AgreementResultEnum>(() =>
                         {
-                            var pipelineResult = new List<ProviderEvent>();
+                            var pipelineResult = new List<MarketProviderEvent>();
 
                             if (this.AgreementResultPipelines[agreementId].TryTake(out AgreementResultEnum response, (int)timeout))
                             {

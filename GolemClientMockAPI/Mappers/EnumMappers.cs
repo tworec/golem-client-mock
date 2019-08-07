@@ -2,34 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static GolemClientMockAPI.Entities.ProviderEvent;
-using static GolemClientMockAPI.Entities.RequestorEvent;
+using static GolemClientMockAPI.Entities.MarketProviderEvent;
+using static GolemClientMockAPI.Entities.MarketRequestorEvent;
 
 namespace GolemClientMockAPI.Mappers
 {
     public static class EnumMappers
     {
-        public static string TranslateRequestorEventType(RequestorEventType eventType)
+        public static string TranslateRequestorEventType(MarketRequestorEventType eventType)
         {
             switch(eventType)
             {
-                case RequestorEventType.Proposal:
+                case MarketRequestorEventType.Proposal:
                     return "offer";
-                case RequestorEventType.PropertyQuery:
+                case MarketRequestorEventType.PropertyQuery:
                     return "propertyQuery";
                 default:
                     throw new Exception($"Unknown RequestorEventType {eventType}");
             }
         }
-        public static string TranslateProviderEventType(ProviderEventType eventType)
+        public static string TranslateProviderEventType(MarketProviderEventType eventType)
         {
             switch (eventType)
             {
-                case ProviderEventType.Proposal:
+                case MarketProviderEventType.Proposal:
                     return "demand";
-                case ProviderEventType.PropertyQuery:
+                case MarketProviderEventType.PropertyQuery:
                     return "propertyQuery";
-                case ProviderEventType.AgreementProposal:
+                case MarketProviderEventType.AgreementProposal:
                     return "newAgreement";
                 default:
                     throw new Exception($"Unknown ProviderEventType {eventType}");

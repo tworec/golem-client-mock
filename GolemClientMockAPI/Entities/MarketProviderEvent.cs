@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 
 namespace GolemClientMockAPI.Entities
 {
-    public class ProviderEvent
+    public class MarketProviderEvent
     {
-        public enum ProviderEventType
+        public enum MarketProviderEventType
         {
             Proposal,
             AgreementProposal,
             PropertyQuery
         }
 
-        public ProviderEventType EventType { get; set; }
+        public MarketProviderEventType EventType { get; set; }
 
         public string RequestorId { get; set; }
 

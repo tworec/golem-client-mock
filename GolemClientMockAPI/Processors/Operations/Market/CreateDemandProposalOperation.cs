@@ -12,9 +12,9 @@ namespace GolemClientMockAPI.Processors.Operations
     {
         public CreateDemandProposalOperation(ISubscriptionRepository subscriptionRepo,
                                         IProposalRepository proposalRepo,
-                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines,
                                         IDictionary<string, string> demandSubscriptions,
-                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> providerEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> providerEventPipelines,
                                         IDictionary<string, string> offerSubscriptions) 
             : base(subscriptionRepo, proposalRepo, null, requestorEventPipelines, demandSubscriptions, providerEventPipelines, offerSubscriptions)
         {
@@ -42,9 +42,9 @@ namespace GolemClientMockAPI.Processors.Operations
                     // TODO should matching be checked here as well between the demand and responding offer proposal?
 
                     this.ProviderEventPipelines[this.OfferSubscriptions[offerProposalId]].PipelineQueue.Add(
-                        new ProviderEvent()
+                        new MarketProviderEvent()
                         {
-                            EventType = ProviderEvent.ProviderEventType.Proposal,
+                            EventType = MarketProviderEvent.MarketProviderEventType.Proposal,
                             DemandProposal = demandProposal,
                             RequestorId = demandProposal.Demand.NodeId
                         });

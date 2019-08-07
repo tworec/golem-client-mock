@@ -31,9 +31,9 @@ namespace GolemMarketApiMockupTests
 
             var mapper = new ProviderEventMapper(this.Mapper);
 
-            var entity = new ProviderEvent()
+            var entity = new MarketProviderEvent()
             {
-                EventType = ProviderEvent.ProviderEventType.Proposal,
+                EventType = MarketProviderEvent.MarketProviderEventType.Proposal,
                 DemandProposal = new DemandProposal()
                 {
                     OfferId = "PreviousOfferId",

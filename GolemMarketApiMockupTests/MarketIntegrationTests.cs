@@ -173,7 +173,7 @@ namespace GolemMarketApiMockupTests
 
             // Now test the blocking logic of Collect - hang on Collect on Requestor side, while Provider sends counter-offer
 
-            ICollection<RequestorEvent> reqEvents2 = null;
+            ICollection<MarketRequestorEvent> reqEvents2 = null;
             Task.Run(async () =>
             {
                 reqEvents2 = await RequestorProcessor.CollectRequestorEventsAsync(demandSubscription.Id, 5000, 10);
@@ -260,7 +260,7 @@ namespace GolemMarketApiMockupTests
             Assert.IsTrue(provEvents3.Any());
             var receivedAgreementProposal = provEvents3.First();
 
-            Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
+            Assert.AreEqual(MarketProviderEvent.MarketProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
 
             ProviderProcessor.ApproveAgreement(receivedAgreementProposal.Agreement.Id);
 
@@ -312,7 +312,7 @@ namespace GolemMarketApiMockupTests
             Assert.IsTrue(provEvents3.Any());
             var receivedAgreementProposal = provEvents3.First();
 
-            Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
+            Assert.AreEqual(MarketProviderEvent.MarketProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
 
             ProviderProcessor.RejectAgreement(receivedAgreementProposal.Agreement.Id);
 
@@ -373,7 +373,7 @@ namespace GolemMarketApiMockupTests
             Assert.IsTrue(provEvents3.Any());
             var receivedAgreementProposal = provEvents3.First();
 
-            Assert.AreEqual(ProviderEvent.ProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
+            Assert.AreEqual(MarketProviderEvent.MarketProviderEventType.AgreementProposal, receivedAgreementProposal.EventType);
 
             ProviderProcessor.RejectAgreement(receivedAgreementProposal.Agreement.Id);
 

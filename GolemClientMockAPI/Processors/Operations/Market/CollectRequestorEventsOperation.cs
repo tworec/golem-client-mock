@@ -12,15 +12,15 @@ namespace GolemClientMockAPI.Processors.Operations
     {
         public CollectRequestorEventsOperation(ISubscriptionRepository subscriptionRepo,
                                         IProposalRepository proposalRepo,
-                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines) 
+                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines) 
             : base(subscriptionRepo, proposalRepo, null, requestorEventPipelines, null, null, null)
         {
 
         }
 
-        public async Task<ICollection<RequestorEvent>> Run(string subscriptionId, float? timeout, int? maxEvents)
+        public async Task<ICollection<MarketRequestorEvent>> Run(string subscriptionId, float? timeout, int? maxEvents)
         {
-            var result = new List<RequestorEvent>();
+            var result = new List<MarketRequestorEvent>();
 
             if (this.RequestorEventPipelines.ContainsKey(subscriptionId))
             {
@@ -39,9 +39,9 @@ namespace GolemClientMockAPI.Processors.Operations
                     var lastProposalInternalId = recordedProposals.Last().InternalId;
 
                     // put the proposals in response
-                    result.AddRange(recordedProposals.Select(prop => new RequestorEvent()
+                    result.AddRange(recordedProposals.Select(prop => new MarketRequestorEvent()
                     {
-                        EventType = RequestorEvent.RequestorEventType.Proposal,
+                        EventType = MarketRequestorEvent.MarketRequestorEventType.Proposal,
                         OfferProposal = prop,
                         ProviderId = prop.Offer.NodeId
                     }));
@@ -54,10 +54,10 @@ namespace GolemClientMockAPI.Processors.Operations
 
                         switch (reqEvent.EventType)
                         {
-                            case RequestorEvent.RequestorEventType.PropertyQuery:
+                            case MarketRequestorEvent.MarketRequestorEventType.PropertyQuery:
                                 result.Add(reqEvent);
                                 break;
-                            case RequestorEvent.RequestorEventType.Proposal:
+                            case MarketRequestorEvent.MarketRequestorEventType.Proposal:
                                 if (reqEvent.OfferProposal.InternalId > lastProposalInternalId)
                                 {
                                     result.Add(reqEvent);
@@ -74,11 +74,11 @@ namespace GolemClientMockAPI.Processors.Operations
                 }
                 else
                 {
-                    var receivedEvents = (await Task<ICollection<RequestorEvent>>.Run<ICollection<RequestorEvent>>(() =>
+                    var receivedEvents = (await Task<ICollection<MarketRequestorEvent>>.Run<ICollection<MarketRequestorEvent>>(() =>
                     {
-                        var pipelineResult = new List<RequestorEvent>();
+                        var pipelineResult = new List<MarketRequestorEvent>();
 
-                        if (pipeline.PipelineQueue.TryTake(out RequestorEvent reqEvent, (int)timeout))
+                        if (pipeline.PipelineQueue.TryTake(out MarketRequestorEvent reqEvent, (int)timeout))
                         {
                             pipelineResult.Add(reqEvent);
                         }

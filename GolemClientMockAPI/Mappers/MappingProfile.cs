@@ -12,21 +12,21 @@ namespace GolemClientMockAPI.Mappers
         {
             // ...from Entities
 
-            CreateMap<Entities.RequestorEvent, GolemMarketMockAPI.MarketAPI.Models.RequestorEvent>()
+            CreateMap<Entities.MarketRequestorEvent, GolemMarketMockAPI.MarketAPI.Models.RequestorEvent>()
                     .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => EnumMappers.TranslateRequestorEventType(src.EventType)));
 
-            CreateMap<Entities.RequestorEvent, GolemMarketMockAPI.MarketAPI.Models.OfferEvent>()
+            CreateMap<Entities.MarketRequestorEvent, GolemMarketMockAPI.MarketAPI.Models.OfferEvent>()
                     .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => EnumMappers.TranslateRequestorEventType(src.EventType)))
                     .ForMember(dest => dest.ProviderId, opt => opt.MapFrom(src => src.OfferProposal.Offer.NodeId))
                     .ForMember(dest => dest.Offer, opt => opt.MapFrom(src => src.OfferProposal));
 
-            CreateMap<Entities.ProviderEvent, GolemMarketMockAPI.MarketAPI.Models.ProviderEvent>()
+            CreateMap<Entities.MarketProviderEvent, GolemMarketMockAPI.MarketAPI.Models.ProviderEvent>()
                 .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => EnumMappers.TranslateProviderEventType(src.EventType)));
-            CreateMap<Entities.ProviderEvent, GolemMarketMockAPI.MarketAPI.Models.DemandEvent>()
+            CreateMap<Entities.MarketProviderEvent, GolemMarketMockAPI.MarketAPI.Models.DemandEvent>()
                     .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => EnumMappers.TranslateProviderEventType(src.EventType)))
                     .ForMember(dest => dest.RequestorId, opt => opt.MapFrom(src => src.DemandProposal.Demand.NodeId))
                     .ForMember(dest => dest.Demand, opt => opt.MapFrom(src => src.DemandProposal));
-            CreateMap<Entities.ProviderEvent, GolemMarketMockAPI.MarketAPI.Models.NewAgreementEvent>()
+            CreateMap<Entities.MarketProviderEvent, GolemMarketMockAPI.MarketAPI.Models.NewAgreementEvent>()
                     .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => EnumMappers.TranslateProviderEventType(src.EventType)))
                     .ForMember(dest => dest.AgreementId, opt => opt.MapFrom(src => src.Agreement.Id))
                     .ForMember(dest => dest.RequestorId, opt => opt.MapFrom(src => src.Agreement.Demand.NodeId))

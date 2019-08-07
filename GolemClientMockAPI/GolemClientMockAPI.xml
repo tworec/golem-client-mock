@@ -15,6 +15,36 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="P:GolemClientMockAPI.Entities.ActivityExecResult.CurrentState">
+            <summary>
+            Current state of the Activity after the 
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.ActivityProviderEvent.ExeScript">
+            <summary>
+            ExeScript batch - relevant for Exec events.
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.ExeScript.Text">
+            <summary>
+            The body of ExeScript
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.MarketProviderEvent.DemandProposal">
+            <summary>
+            For EventType = Proposal - this contains the received Demand Proposal
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.MarketProviderEvent.Agreement">
+            <summary>
+            For EventType = AgreementProposal - this contains received Agreement
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.MarketRequestorEvent.OfferProposal">
+            <summary>
+            For EventType = Proposal - this contains the received Offer Proposal
+            </summary>
+        </member>
         <member name="P:GolemClientMockAPI.Entities.Proposal.Id">
             <summary>
             Proposal Id (as perceived by Proposal receiver)
@@ -30,21 +60,6 @@
             SubscriptionId of the receiver (required to identify the receiving pipeline)
             </summary>
         </member>
-        <member name="P:GolemClientMockAPI.Entities.ProviderEvent.DemandProposal">
-            <summary>
-            For EventType = Proposal - this contains the received Demand Proposal
-            </summary>
-        </member>
-        <member name="P:GolemClientMockAPI.Entities.ProviderEvent.Agreement">
-            <summary>
-            For EventType = AgreementProposal - this contains received Agreement
-            </summary>
-        </member>
-        <member name="P:GolemClientMockAPI.Entities.RequestorEvent.OfferProposal">
-            <summary>
-            For EventType = Proposal - this contains the received Offer Proposal
-            </summary>
-        </member>
         <member name="M:GolemClientMockAPI.Mappers.PropertyMappers.ProcessJProperty(System.String,Newtonsoft.Json.Linq.JProperty,System.Collections.Generic.IDictionary{System.String,System.String})">
             <summary>
             Recursive traversal of json structure to extract properties.
@@ -53,6 +68,21 @@
             <param name="parentPath"></param>
             <param name="property"></param>
             <returns></returns>
+        </member>
+        <member name="P:GolemClientMockAPI.Processors.InMemoryActivityProcessor.ProviderEventQueues">
+            <summary>
+            Collection of Provider Activity Event queues, indexed by Provider Node Id
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Processors.InMemoryActivityProcessor.ExeScriptBatchQueues">
+            <summary>
+            Collection of Requestor Activity Event queues, indexed by ExeScriptBatchIds
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Processors.InMemoryActivityProcessor.ActivityEventQueues">
+            <summary>
+            Collection of Requestor Activity Event queues, indexed by ActivityIds
+            </summary>
         </member>
         <member name="F:GolemClientMockAPI.Processors.InMemoryMarketProcessor.RequestorEventPipelines">
             <summary>
@@ -80,6 +110,53 @@
             These are used to message the responses to ConfirmAgreement calls.
             </summary>
         </member>
+        <member name="M:GolemClientMockAPI.Processors.IRequestorActivityProcessor.CreateActivity(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="agreementId"></param>
+            <returns>Created Activity</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Processors.IRequestorActivityProcessor.ExecAsync(System.String,GolemClientMockAPI.Entities.ExeScript)">
+            <summary>
+            
+            </summary>
+            <param name="activityId"></param>
+            <param name="exeScript"></param>
+            <returns>exeScript batch id</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Processors.IRequestorActivityProcessor.GetExecBatchResultsAsync(System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="exeScriptBatchId"></param>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Processors.IRequestorActivityProcessor.DestroyActivity(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="activityId"></param>
+        </member>
+        <member name="M:GolemClientMockAPI.Processors.IRequestorActivityProcessor.GetStateDetails(System.String,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="activityId"></param>
+            <param name="timeout"></param>
+            <returns></returns>
+        </member>
+        <member name="P:GolemClientMockAPI.Processors.Operations.Activity.InMemoryActivityOperationBase.ExeBatchQueues">
+            <summary>
+            ExeScript Result queues, indexed by Batch Ids
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Processors.Operations.Activity.InMemoryActivityOperationBase.ActivityStateQueues">
+            <summary>
+            Activity State Details queues, indexed by activityId
+            </summary>
+        </member>
         <member name="F:GolemClientMockAPI.Processors.Operations.InMemoryMarketOperationBase.RequestorEventPipelines">
             <summary>
             Requestor subscription pipelines, indexed by SubscriptionId
@@ -99,6 +176,20 @@
             <summary>
             Dictionary of Offer subscriptionIds indexed by Offer/Proposal Ids which have been issued in those subscriptions.
             </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.Repository.IActivityRepository.CreateExeScriptBatch(System.String,GolemClientMockAPI.Entities.ExeScript)">
+            <summary>
+            Persists the exeScript batch under unique batch id
+            </summary>
+            <param name="exeScript"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GolemClientMockAPI.Repository.IActivityRepository.GetExeScriptBatch(System.String)">
+            <summary>
+            Fetch the persisted exescript batch by batchId.
+            </summary>
+            <param name="batchId"></param>
+            <returns></returns>
         </member>
         <member name="P:GolemClientMockAPI.Repository.InProcessSubscriptionProposalRepository.Subscriptions">
             <summary>

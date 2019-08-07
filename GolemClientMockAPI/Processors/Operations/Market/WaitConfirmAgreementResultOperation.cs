@@ -9,24 +9,24 @@ using System.Threading.Tasks;
 
 namespace GolemClientMockAPI.Processors.Operations
 {
-    public class SendConfirmAgreementOperation : ConfirmAgreementBase
+    public class WaitConfirmAgreementResultOperation : ConfirmAgreementBase
     {
 
-        public SendConfirmAgreementOperation(ISubscriptionRepository subscriptionRepo,
+        public WaitConfirmAgreementResultOperation(ISubscriptionRepository subscriptionRepo,
                                         IProposalRepository proposalRepo,
                                         IAgreementRepository agreementRepo,
-                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, RequestorEvent>> requestorEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<DemandSubscription, MarketRequestorEvent>> requestorEventPipelines,
                                         IDictionary<string, string> demandSubscriptions,
-                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, ProviderEvent>> providerEventPipelines,
+                                        IDictionary<string, SubscriptionPipeline<OfferSubscription, MarketProviderEvent>> providerEventPipelines,
                                         IDictionary<string, string> offerSubscriptions,
                                         IDictionary<string, BlockingCollection<AgreementResultEnum>> agreementResultPipelines) 
             : base(subscriptionRepo, proposalRepo, agreementRepo, requestorEventPipelines, demandSubscriptions, providerEventPipelines, offerSubscriptions, agreementResultPipelines)
         {
         }
 
-        public void Run(string agreementId)
+        public async Task<AgreementResultEnum> Run(string agreementId, float? timeout)
         {
-            this.SendConfirmAgreement(agreementId);
+            return await this.WaitForAgreementResult(agreementId, timeout);
         }
     }
 }

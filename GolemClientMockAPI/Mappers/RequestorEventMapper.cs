@@ -15,13 +15,13 @@ namespace GolemClientMockAPI.Mappers
             this.Mapper = mapper;
         }
 
-        public GolemMarketMockAPI.MarketAPI.Models.RequestorEvent Map(Entities.RequestorEvent requestorEventEntity)
+        public GolemMarketMockAPI.MarketAPI.Models.RequestorEvent Map(Entities.MarketRequestorEvent requestorEventEntity)
         {
             switch(requestorEventEntity.EventType)
             {
-                case Entities.RequestorEvent.RequestorEventType.Proposal:
+                case Entities.MarketRequestorEvent.MarketRequestorEventType.Proposal:
                     return this.Mapper.Map<GolemMarketMockAPI.MarketAPI.Models.OfferEvent>(requestorEventEntity);
-                case Entities.RequestorEvent.RequestorEventType.PropertyQuery:
+                case Entities.MarketRequestorEvent.MarketRequestorEventType.PropertyQuery:
                     return this.Mapper.Map<GolemMarketMockAPI.MarketAPI.Models.RequestorEvent>(requestorEventEntity);
                 default:
                     throw new Exception($"Unknown RequestorEventType {requestorEventEntity.EventType}");
