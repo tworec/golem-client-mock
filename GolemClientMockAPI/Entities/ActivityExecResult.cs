@@ -9,14 +9,19 @@ namespace GolemClientMockAPI.Entities
     {
         public enum ActivityExecResultEnum
         {
-            OK,
-            Error
+            OK = 1,
+            Error = 2
         }
+
+        /// <summary>
+        /// Index of command for which this is the result
+        /// </summary>
+        public int Index { get; set; }
 
         public ActivityExecResultEnum Result { get; set; }
 
         /// <summary>
-        /// Current state of the Activity after the 
+        /// Current state of the Activity after the command
         /// </summary>
         public ActivityState CurrentState { get; set; }
     }

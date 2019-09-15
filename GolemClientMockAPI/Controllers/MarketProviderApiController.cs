@@ -35,7 +35,7 @@ namespace GolemMarketMockAPI.Controllers
     /// 
     /// </summary>
     [GolemClientAuthorizationFilter(DefaultNodeId = "DummyProviderNodeId")]
-    public class ProviderApiController : Controller
+    public class MarketProviderApiController : Controller
     {
 
         public IProviderMarketProcessor MarketProcessor { get; set; }
@@ -43,15 +43,15 @@ namespace GolemMarketMockAPI.Controllers
         public IProposalRepository ProposalRepository { get; set; }
         public IAgreementRepository AgreementRepository { get; set; }
 
-        public ProviderEventMapper ProviderEventMapper { get; set; }
+        public MarketProviderEventMapper ProviderEventMapper { get; set; }
         public DemandMapper DemandMapper { get; set; }
         public OfferMapper OfferMapper { get; set; }
 
-        public ProviderApiController(IProviderMarketProcessor marketProcessor,
+        public MarketProviderApiController(IProviderMarketProcessor marketProcessor,
             ISubscriptionRepository subscriptionRepository,
             IProposalRepository proposalRepository,
             IAgreementRepository agreementRepository,
-            ProviderEventMapper providerEventMapper,
+            MarketProviderEventMapper providerEventMapper,
             OfferMapper offerMapper,
             DemandMapper demandMapper)
         {

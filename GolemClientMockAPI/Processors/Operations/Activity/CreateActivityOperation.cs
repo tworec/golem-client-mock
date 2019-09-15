@@ -40,7 +40,8 @@ namespace GolemClientMockAPI.Processors.Operations.Activity
                 var providerEvent = new Entities.ActivityProviderEvent()
                 {
                     EventType = Entities.ActivityProviderEvent.ActivityProviderEventType.CreateActivity,
-                    ActivityId = activity.Id
+                    ActivityId = activity.Id,
+                    AgreementId = agreementId
                 };
 
                 this.EnsureProviderQueueExists(providerNodeId);

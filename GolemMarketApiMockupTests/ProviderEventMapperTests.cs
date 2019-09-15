@@ -29,7 +29,7 @@ namespace GolemMarketApiMockupTests
         public void Map_ProviderEvent_ToDemandEvent()
         {
 
-            var mapper = new ProviderEventMapper(this.Mapper);
+            var mapper = new MarketProviderEventMapper(this.Mapper);
 
             var entity = new MarketProviderEvent()
             {

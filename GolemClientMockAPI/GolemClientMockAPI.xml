@@ -4,6 +4,859 @@
         <name>GolemClientMockAPI</name>
     </assembly>
     <members>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ActivityState">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum">
+            <summary>
+            Gets or Sets State
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.NewEnum">
+            <summary>
+            Enum NewEnum for New
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.DeployingEnum">
+            <summary>
+            Enum DeployingEnum for Deploying
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.ReadyEnum">
+            <summary>
+            Enum ReadyEnum for Ready
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.StartingEnum">
+            <summary>
+            Enum StartingEnum for Starting
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.ActiveEnum">
+            <summary>
+            Enum ActiveEnum for Active
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.UnresponsiveEnum">
+            <summary>
+            Enum UnresponsiveEnum for Unresponsive
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityState.StateEnum.TerminatedEnum">
+            <summary>
+            Enum TerminatedEnum for Terminated
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityState.State">
+            <summary>
+            Gets or Sets State
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityState.Reason">
+            <summary>
+            Reason for Activity termination (specified when Activity in Terminated state).
+            </summary>
+            <value>Reason for Activity termination (specified when Activity in Terminated state).</value>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityState.ErrorMessage">
+            <summary>
+            If error caused state change - error message shall be provided.
+            </summary>
+            <value>If error caused state change - error message shall be provided.</value>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityState.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityState.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityState.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityState.Equals(GolemClientMockAPI.ActivityAPI.Models.ActivityState)">
+            <summary>
+            Returns true if ActivityState instances are equal
+            </summary>
+            <param name="other">Instance of ActivityState to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityState.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.CurrentUsage">
+            <summary>
+            Current usage vector
+            </summary>
+            <value>Current usage vector</value>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum">
+            <summary>
+            Gets or Sets State
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.NewEnum">
+            <summary>
+            Enum NewEnum for New
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.DeployingEnum">
+            <summary>
+            Enum DeployingEnum for Deploying
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.ReadyEnum">
+            <summary>
+            Enum ReadyEnum for Ready
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.StartingEnum">
+            <summary>
+            Enum StartingEnum for Starting
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.ActiveEnum">
+            <summary>
+            Enum ActiveEnum for Active
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.UnresponsiveEnum">
+            <summary>
+            Enum UnresponsiveEnum for Unresponsive
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.StateEnum.TerminatedEnum">
+            <summary>
+            Enum TerminatedEnum for Terminated
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.State">
+            <summary>
+            Gets or Sets State
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.Reason">
+            <summary>
+            Reason for Activity termination (specified when Activity in Terminated state).
+            </summary>
+            <value>Reason for Activity termination (specified when Activity in Terminated state).</value>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.ErrorMessage">
+            <summary>
+            If error caused state change - error message shall be provided.
+            </summary>
+            <value>If error caused state change - error message shall be provided.</value>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.Equals(GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails)">
+            <summary>
+            Returns true if ActivityStateDetails instances are equal
+            </summary>
+            <param name="other">Instance of ActivityStateDetails to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError.Message">
+            <summary>
+            Gets or Sets Message
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError.Equals(GolemClientMockAPI.ActivityAPI.Models.CreateActivityError)">
+            <summary>
+            Returns true if CreateActivityError instances are equal
+            </summary>
+            <param name="other">Instance of CreateActivityError to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityError.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.AgreementId">
+            <summary>
+            Gets or Sets AgreementId
+            </summary>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.EventTypeEnum">
+            <summary>
+            Gets or Sets EventType
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.EventTypeEnum.CreateActivityEnum">
+            <summary>
+            Enum CreateActivityEnum for CreateActivity
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.EventTypeEnum.ExecEnum">
+            <summary>
+            Enum ExecEnum for Exec
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.EventTypeEnum.DestroyActivityEnum">
+            <summary>
+            Enum DestroyActivityEnum for DestroyActivity
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.EventTypeEnum.GetStateEnum">
+            <summary>
+            Enum GetStateEnum for GetState
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.EventType">
+            <summary>
+            Gets or Sets EventType
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.ActivityId">
+            <summary>
+            Gets or Sets ActivityId
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.Equals(GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent)">
+            <summary>
+            Returns true if CreateActivityProviderEvent instances are equal
+            </summary>
+            <param name="other">Instance of CreateActivityProviderEvent to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.CreateActivityProviderEvent.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError.Message">
+            <summary>
+            Gets or Sets Message
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError.Equals(GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError)">
+            <summary>
+            Returns true if DestroyActivityError instances are equal
+            </summary>
+            <param name="other">Instance of DestroyActivityError to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.DestroyActivityError.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ErrorBase">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ErrorBase.Message">
+            <summary>
+            Gets or Sets Message
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ErrorBase.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ErrorBase.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ErrorBase.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ErrorBase.Equals(GolemClientMockAPI.ActivityAPI.Models.ErrorBase)">
+            <summary>
+            Returns true if ErrorBase instances are equal
+            </summary>
+            <param name="other">Instance of ErrorBase to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ErrorBase.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExecError">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExecError.Message">
+            <summary>
+            Gets or Sets Message
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecError.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecError.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecError.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecError.Equals(GolemClientMockAPI.ActivityAPI.Models.ExecError)">
+            <summary>
+            Returns true if ExecError instances are equal
+            </summary>
+            <param name="other">Instance of ExecError to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecError.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.BatchId">
+            <summary>
+            Gets or Sets BatchId
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.ExeScript">
+            <summary>
+            Gets or Sets ExeScript
+            </summary>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.EventTypeEnum">
+            <summary>
+            Gets or Sets EventType
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.EventTypeEnum.CreateActivityEnum">
+            <summary>
+            Enum CreateActivityEnum for CreateActivity
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.EventTypeEnum.ExecEnum">
+            <summary>
+            Enum ExecEnum for Exec
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.EventTypeEnum.DestroyActivityEnum">
+            <summary>
+            Enum DestroyActivityEnum for DestroyActivity
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.EventTypeEnum.GetStateEnum">
+            <summary>
+            Enum GetStateEnum for GetState
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.EventType">
+            <summary>
+            Gets or Sets EventType
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.ActivityId">
+            <summary>
+            Gets or Sets ActivityId
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.Equals(GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent)">
+            <summary>
+            Returns true if ExecProviderEvent instances are equal
+            </summary>
+            <param name="other">Instance of ExecProviderEvent to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExecProviderEvent.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch.Commands">
+            <summary>
+            Gets or Sets Commands
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch.Equals(GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch)">
+            <summary>
+            Returns true if ExeScriptBatch instances are equal
+            </summary>
+            <param name="other">Instance of ExeScriptBatch to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptBatch.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.Command">
+            <summary>
+            Gets or Sets Command
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.Params">
+            <summary>
+            Gets or Sets Params
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.Equals(GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand)">
+            <summary>
+            Returns true if ExeScriptCommand instances are equal
+            </summary>
+            <param name="other">Instance of ExeScriptCommand to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommand.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.Index">
+            <summary>
+            Gets or Sets Index
+            </summary>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.ResultEnum">
+            <summary>
+            Gets or Sets Result
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.ResultEnum.OkEnum">
+            <summary>
+            Enum OkEnum for Ok
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.ResultEnum.ErrorEnum">
+            <summary>
+            Enum ErrorEnum for Error
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.Result">
+            <summary>
+            Gets or Sets Result
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.Message">
+            <summary>
+            Gets or Sets Message
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.Equals(GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult)">
+            <summary>
+            Returns true if ExeScriptCommandResult instances are equal
+            </summary>
+            <param name="other">Instance of ExeScriptCommandResult to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest.Text">
+            <summary>
+            Gets or Sets Text
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest.Equals(GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest)">
+            <summary>
+            Returns true if ExeScriptBatch instances are equal
+            </summary>
+            <param name="other">Instance of ExeScriptRequest to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Type">
+            <summary>
+            Gets or Sets Type
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Title">
+            <summary>
+            Gets or Sets Title
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Status">
+            <summary>
+            Gets or Sets Status
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Detail">
+            <summary>
+            Gets or Sets Detail
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Instance">
+            <summary>
+            Gets or Sets Instance
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.Equals(GolemClientMockAPI.ActivityAPI.Models.ProblemDetails)">
+            <summary>
+            Returns true if ProblemDetails instances are equal
+            </summary>
+            <param name="other">Instance of ProblemDetails to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProblemDetails.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.EventTypeEnum">
+            <summary>
+            Gets or Sets EventType
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.EventTypeEnum.CreateActivityEnum">
+            <summary>
+            Enum CreateActivityEnum for CreateActivity
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.EventTypeEnum.ExecEnum">
+            <summary>
+            Enum ExecEnum for Exec
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.EventTypeEnum.DestroyActivityEnum">
+            <summary>
+            Enum DestroyActivityEnum for DestroyActivity
+            </summary>
+        </member>
+        <member name="F:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.EventTypeEnum.GetStateEnum">
+            <summary>
+            Enum GetStateEnum for GetState
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.EventType">
+            <summary>
+            Gets or Sets EventType
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.ActivityId">
+            <summary>
+            Gets or Sets ActivityId
+            </summary>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.ToString">
+            <summary>
+            Returns the string presentation of the object
+            </summary>
+            <returns>String presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.ToJson">
+            <summary>
+            Returns the JSON string presentation of the object
+            </summary>
+            <returns>JSON string presentation of the object</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.Equals(System.Object)">
+            <summary>
+            Returns true if objects are equal
+            </summary>
+            <param name="obj">Object to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.Equals(GolemClientMockAPI.ActivityAPI.Models.ProviderEvent)">
+            <summary>
+            Returns true if ProviderEvent instances are equal
+            </summary>
+            <param name="other">Instance of ProviderEvent to be compared</param>
+            <returns>Boolean</returns>
+        </member>
+        <member name="M:GolemClientMockAPI.ActivityAPI.Models.ProviderEvent.GetHashCode">
+            <summary>
+            Gets the hash code
+            </summary>
+            <returns>Hash code</returns>
+        </member>
         <member name="T:GolemClientMockAPI.Attributes.ValidateModelStateAttribute">
             <summary>
             Model state validation attribute
@@ -15,9 +868,14 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="P:GolemClientMockAPI.Entities.ActivityExecResult.Index">
+            <summary>
+            Index of command for which this is the result
+            </summary>
+        </member>
         <member name="P:GolemClientMockAPI.Entities.ActivityExecResult.CurrentState">
             <summary>
-            Current state of the Activity after the 
+            Current state of the Activity after the command
             </summary>
         </member>
         <member name="P:GolemClientMockAPI.Entities.ActivityProviderEvent.ExeScript">
@@ -349,19 +1207,138 @@
             <param name="env"></param>
             <param name="loggerFactory"></param>
         </member>
-        <member name="T:GolemMarketMockAPI.Controllers.ProviderApiController">
+        <member name="T:GolemMarketMockAPI.Controllers.ActivityControlApiController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.ApproveAgreement(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityControlApiController.CreateActivity(System.String)">
+            <summary>
+            Creates new Activity based on given Agreement.
+            </summary>
+            <param name="agreementId"></param>
+            <response code="201">Success</response>
+            <response code="400">Bad Request</response>
+            <response code="403">Forbidden</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityControlApiController.DestroyActivity(System.String)">
+            <summary>
+            Destroys given Activity.
+            </summary>
+            <param name="activityId"></param>
+            <response code="200">Success</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityControlApiController.Exec(System.String,GolemClientMockAPI.ActivityAPI.Models.ExeScriptRequest)">
+            <summary>
+            Executes an ExeScript batch within a given Activity.
+            </summary>
+            <param name="activityId"></param>
+            <param name="script"></param>
+            <response code="200">Success</response>
+            <response code="400">Bad Request</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityControlApiController.GetExecBatchResults(System.String,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Queries for ExeScript batch results.
+            </summary>
+            <param name="activityId"></param>
+            <param name="batchId"></param>
+            <param name="timeout"></param>
+            <response code="200">Success</response>
+            <response code="400">Bad Request</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="T:GolemMarketMockAPI.Controllers.ActivityProviderGatewayApiController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityProviderGatewayApiController.CollectActivityEvents(System.Nullable{System.Int32})">
+            <summary>
+            Queries for ExeScript batch results.
+            </summary>
+            <param name="timeout"></param>
+            <response code="200">Success</response>
+            <response code="403">Forbidden</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityProviderGatewayApiController.PutActivityStateDetails(System.String,GolemClientMockAPI.ActivityAPI.Models.ActivityStateDetails)">
+            <summary>
+            Pass activity state (which may include error details)
+            </summary>
+            <param name="activityId"></param>
+            <param name="state"></param>
+            <response code="200">Success</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityProviderGatewayApiController.PutExeScriptResult(System.String,System.String,GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult)">
+            <summary>
+            Pass result of individual ExeScript command executed within the batch.
+            </summary>
+            <param name="activityId"></param>
+            <param name="batchId"></param>
+            <param name="commandResult"></param>
+            <response code="200">Success</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="T:GolemMarketMockAPI.Controllers.ActivityStateApiController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityStateApiController.GetCurrentUsage(System.Nullable{System.Int32})">
+            <summary>
+            Get usage of specified Activity.
+            </summary>
+            <param name="activityId"></param>
+            <response code="200">Success</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityStateApiController.GetRunningCommand(System.Nullable{System.Int32})">
+            <summary>
+            Get running command for a specified Activity.
+            </summary>
+            <param name="activityId"></param>
+            <response code="200">Success</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.ActivityStateApiController.GetState(System.Nullable{System.Int32})">
+            <summary>
+            Get state of specified Activity.
+            </summary>
+            <param name="activityId"></param>
+            <response code="200">Success</response>
+            <response code="404">Not Found</response>
+            <response code="500">Server Error</response>
+        </member>
+        <member name="T:GolemMarketMockAPI.Controllers.MarketProviderApiController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.ApproveAgreement(System.String)">
             <summary>
             
             </summary>
             <param name="agreementId"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.Collect(System.String,System.Nullable{System.Single},System.Nullable{System.Int64})">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.Collect(System.String,System.Nullable{System.Single},System.Nullable{System.Int64})">
             <summary>
             
             </summary>
@@ -370,7 +1347,7 @@
             <param name="maxEvents"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.CreateProposal(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.Proposal)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.CreateProposal(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.Proposal)">
             <summary>
             Creates agreement proposal
             </summary>
@@ -379,7 +1356,7 @@
             <param name="proposal"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.GetProposal(System.String,System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.GetProposal(System.String,System.String)">
             <summary>
             Fetches agreement proposal from proposal id.
             </summary>
@@ -387,7 +1364,7 @@
             <param name="proposalId"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.QueryResponse(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.PropertyQueryResponse)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.QueryResponse(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.PropertyQueryResponse)">
             <summary>
             
             </summary>
@@ -396,14 +1373,14 @@
             <param name="propertyValues"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.RejectAgreement(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.RejectAgreement(System.String)">
             <summary>
             Rejects agreement.
             </summary>
             <param name="agreementId"></param>
             <response code="204">Agreement rejected</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.RejectProposal(System.String,System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.RejectProposal(System.String,System.String)">
             <summary>
             Rejects offer
             </summary>
@@ -411,7 +1388,7 @@
             <param name="proposalId"></param>
             <response code="204">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.Subscribe(GolemMarketMockAPI.MarketAPI.Models.Offer)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.Subscribe(GolemMarketMockAPI.MarketAPI.Models.Offer)">
             <summary>
             
             </summary>
@@ -419,7 +1396,7 @@
             <response code="201">OK</response>
             <response code="400">Bad offer desciption</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.ProviderApiController.Unsubscribe(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketProviderApiController.Unsubscribe(System.String)">
             <summary>
             
             </summary>
@@ -427,19 +1404,19 @@
             <response code="204">Delete</response>
             <response code="404">Subscription not found</response>
         </member>
-        <member name="T:GolemMarketMockAPI.Controllers.RequestorApiController">
+        <member name="T:GolemMarketMockAPI.Controllers.MarketRequestorApiController">
             <summary>
             
             </summary>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.CancelAgreement(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.CancelAgreement(System.String)">
             <summary>
             Cancels agreement.
             </summary>
             <param name="agreementId"></param>
             <response code="204">Agreement canceled</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.Collect(System.String,System.Nullable{System.Single},System.Nullable{System.Int64})">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.Collect(System.String,System.Nullable{System.Single},System.Nullable{System.Int64})">
             <summary>
             
             </summary>
@@ -448,21 +1425,21 @@
             <param name="maxEvents"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.ConfirmAgreement(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.ConfirmAgreement(System.String)">
             <summary>
             approves
             </summary>
             <param name="agreementId"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.CreateAgreement(GolemMarketMockAPI.MarketAPI.Models.Agreement)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.CreateAgreement(GolemMarketMockAPI.MarketAPI.Models.Agreement)">
             <summary>
             Creates new agreement from proposal
             </summary>
             <param name="agreement"></param>
             <response code="201">Created</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.CreateProposal(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.Proposal)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.CreateProposal(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.Proposal)">
             <summary>
             Creates agreement proposal
             </summary>
@@ -471,7 +1448,7 @@
             <param name="demandProposal"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.GetProposal(System.String,System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.GetProposal(System.String,System.String)">
             <summary>
             Fetches agreement proposal from proposal id.
             </summary>
@@ -479,7 +1456,7 @@
             <param name="proposalId"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.QueryResponse(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.PropertyQueryResponse)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.QueryResponse(System.String,System.String,GolemMarketMockAPI.MarketAPI.Models.PropertyQueryResponse)">
             <summary>
             
             </summary>
@@ -488,7 +1465,7 @@
             <param name="propertyValues"></param>
             <response code="200">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.RejectProposal(System.String,System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.RejectProposal(System.String,System.String)">
             <summary>
             Rejects offer
             </summary>
@@ -496,7 +1473,7 @@
             <param name="proposalId"></param>
             <response code="204">OK</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.Subscribe(GolemMarketMockAPI.MarketAPI.Models.Demand)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.Subscribe(GolemMarketMockAPI.MarketAPI.Models.Demand)">
             <summary>
             
             </summary>
@@ -504,7 +1481,7 @@
             <response code="201">Offer published</response>
             <response code="400">Bad offer desciption</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.Unsubscribe(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.Unsubscribe(System.String)">
             <summary>
             
             </summary>
@@ -512,7 +1489,7 @@
             <response code="204">Delete</response>
             <response code="404">Subscription not found</response>
         </member>
-        <member name="M:GolemMarketMockAPI.Controllers.RequestorApiController.WaitForApproval(System.String)">
+        <member name="M:GolemMarketMockAPI.Controllers.MarketRequestorApiController.WaitForApproval(System.String)">
             <summary>
             
             </summary>

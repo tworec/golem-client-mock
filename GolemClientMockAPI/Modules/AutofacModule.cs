@@ -15,9 +15,9 @@ namespace GolemClientMockAPI.Modules
         {
             base.Load(builder);
 
-            builder.RegisterType<RequestorEventMapper>().AsSelf()
+            builder.RegisterType<MarketRequestorEventMapper>().AsSelf()
                  .SingleInstance();
-            builder.RegisterType<ProviderEventMapper>().AsSelf()
+            builder.RegisterType<MarketProviderEventMapper>().AsSelf()
                  .SingleInstance();
             builder.RegisterType<DemandMapper>().AsSelf()
                  .SingleInstance();
@@ -36,6 +36,22 @@ namespace GolemClientMockAPI.Modules
                 .As<ISubscriptionRepository>()
                 .As<IProposalRepository>()
                 .As<IStatsRepository>()
+                .SingleInstance();
+            builder.RegisterType<InProcessActivityRepository>()
+                .As<IActivityRepository>()
+                .SingleInstance();
+
+            builder.RegisterType<ExeScriptMapper>()
+                .AsSelf()
+                .SingleInstance();
+
+            builder.RegisterType<ActivityProviderEventMapper>()
+                .AsSelf()
+                .SingleInstance();
+
+            builder.RegisterType<InMemoryActivityProcessor>()
+                .As<IRequestorActivityProcessor>()
+                .As<IProviderActivityProcessor>()
                 .SingleInstance();
         }
     }

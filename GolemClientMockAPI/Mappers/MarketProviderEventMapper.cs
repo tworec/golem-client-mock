@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace GolemClientMockAPI.Mappers
 {
-    public class ProviderEventMapper
+    public class MarketProviderEventMapper
     {
         public IMapper Mapper { get; set; }
 
-        public ProviderEventMapper(IMapper mapper)
+        public MarketProviderEventMapper(IMapper mapper)
         {
             this.Mapper = mapper;
         }

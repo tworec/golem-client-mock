@@ -35,22 +35,22 @@ namespace GolemMarketMockAPI.Controllers
     /// 
     /// </summary>
     [GolemClientAuthorizationFilter(DefaultNodeId = "DummyRequestorNodeId")]
-    public class RequestorApiController : Controller
+    public class MarketRequestorApiController : Controller
     {
         public IRequestorMarketProcessor MarketProcessor { get; set; }
         public ISubscriptionRepository SubscriptionRepository { get; set; }
         public IProposalRepository ProposalRepository { get; set; }
         public IAgreementRepository AgreementRepository { get; set; }
 
-        public RequestorEventMapper RequestorEventMapper { get; set; }
+        public MarketRequestorEventMapper RequestorEventMapper { get; set; }
         public DemandMapper DemandMapper { get; set; }
         public OfferMapper OfferMapper { get; set; }
 
-        public RequestorApiController(IRequestorMarketProcessor marketProcessor,
+        public MarketRequestorApiController(IRequestorMarketProcessor marketProcessor,
             ISubscriptionRepository subscriptionRepository,
             IProposalRepository proposalRepository,
             IAgreementRepository agreementRepository,
-            RequestorEventMapper requestorEventMapper,
+            MarketRequestorEventMapper requestorEventMapper,
             DemandMapper demandMapper,
             OfferMapper offerMapper)
         {

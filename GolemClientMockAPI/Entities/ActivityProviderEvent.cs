@@ -7,17 +7,20 @@ namespace GolemClientMockAPI.Entities
 {
     public class ActivityProviderEvent
     {
+        // NOTE These enum values must match with Provider EventTypeEnum values
         public enum ActivityProviderEventType
         {
-            CreateActivity,
-            Exec,
-            DestroyActivity,
-            GetState
+            CreateActivity = 1,
+            Exec = 2,
+            DestroyActivity = 3,
+            GetState = 4
         }
 
         public ActivityProviderEventType EventType { get; set; }
 
         public string ActivityId { get; set; }
+
+        public string AgreementId { get; set; }
 
         /// <summary>
         /// ExeScript batch - relevant for Exec events.

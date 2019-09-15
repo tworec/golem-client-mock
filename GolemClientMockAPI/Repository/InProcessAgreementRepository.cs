@@ -38,7 +38,8 @@ namespace GolemClientMockAPI.Repository
             }
             else
             {
-                throw new Exception($"Agreement Id {agreementId} does not exist!");
+                return null;
+                //throw new Exception($"Agreement Id {agreementId} does not exist!");
             }
         }
 

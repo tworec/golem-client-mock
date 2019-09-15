@@ -49,6 +49,29 @@ namespace GolemClientMockAPI.Mappers
                 .ForMember(dest => dest.Constraints, opt => opt.MapFrom(src => src.Offer.Constraints))
                 .ForMember(dest => dest.Properties, opt => opt.MapFrom(src => src.Offer.Properties));
 
+            CreateMap<Entities.ActivityExecResult, ActivityAPI.Models.ExeScriptCommandResult>()
+                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result));
+
+
+            // ActivityProviderEvent
+            CreateMap<Entities.ActivityProviderEvent, ActivityAPI.Models.CreateActivityProviderEvent>()
+                .ForMember(dest => dest.ActivityId, opt => opt.MapFrom(src => src.ActivityId))
+                .ForMember(dest => dest.AgreementId, opt => opt.MapFrom(src => src.AgreementId))
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                ;
+
+            CreateMap<Entities.ActivityProviderEvent, ActivityAPI.Models.ProviderEvent>()
+                .ForMember(dest => dest.ActivityId, opt => opt.MapFrom(src => src.ActivityId))
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                ;
+
+            CreateMap<Entities.ActivityProviderEvent, ActivityAPI.Models.ExecProviderEvent>()
+                .ForMember(dest => dest.ActivityId, opt => opt.MapFrom(src => src.ActivityId))
+                .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                // NOTE: We are not implementing the ExeScript text parsing here! This must be implemented in dedicated mapper
+                .ForMember(dest => dest.ExeScript, opt => opt.Ignore())
+                ;
+
             // ...to Entities
 
             CreateMap<GolemMarketMockAPI.MarketAPI.Models.Demand, Entities.Demand>()
@@ -56,6 +79,10 @@ namespace GolemClientMockAPI.Mappers
 
             CreateMap<GolemMarketMockAPI.MarketAPI.Models.Offer, Entities.Offer>()
                 .ForMember(dest => dest.Properties, opt => opt.MapFrom(src => PropertyMappers.MapFromJsonString(src.Properties.ToString())));
+
+            CreateMap<ActivityAPI.Models.ExeScriptCommandResult, Entities.ActivityExecResult>()
+                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.Result));
+
 
         }
     }

@@ -16,11 +16,12 @@
     "IIS Express": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "ancmHostingModel": "OutOfProcess",
-      "applicationUrl": "http://localhost:5001"
+      "applicationUrl": "http://localhost:5001/"
     },
     "GolemClientMockAPI": {
       "commandName": "IISExpress",
