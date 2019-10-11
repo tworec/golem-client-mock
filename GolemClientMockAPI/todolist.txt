@@ -2,3 +2,6 @@
   - in ActivityProviderEventMapper 
     - DONE Implement ExeScript parser - to split the incoming ExeScript Text into batch
 	- DONE Implement other automapper profiles
+
+Implement PutActivityStateDetails operation
+	- Add CurrentCommand to the API structure

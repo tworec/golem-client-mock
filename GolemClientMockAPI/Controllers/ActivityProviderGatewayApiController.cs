@@ -104,18 +104,38 @@ namespace GolemMarketMockAPI.Controllers
         [SwaggerResponse(statusCode: 404, type: typeof(GolemClientMockAPI.ActivityAPI.Models.ProblemDetails), description: "Not Found")]
         [SwaggerResponse(statusCode: 500, type: typeof(ErrorBase), description: "Server Error")]
         public virtual IActionResult PutActivityStateDetails([FromRoute][Required]string activityId, [FromBody]ActivityStateDetails state)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
+        {
+            var clientContext = this.HttpContext.Items["ClientContext"] as GolemClientMockAPI.Entities.ClientContext;
 
-            //TODO: Uncomment the next line to return response 403 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(403, default(ProblemDetails));
+            try
+            {
+                var activity = this.ActivityRepository.GetActivity(activityId);
 
-            //TODO: Uncomment the next line to return response 404 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(404, default(ProblemDetails));
+                if (activity == null)
+                {
+                    return this.StatusCode(404); // Activity not found
+                }
 
-            //TODO: Uncomment the next line to return response 500 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(500, default(ErrorBase));
+                if (activity.ProviderNodeId != clientContext.NodeId)
+                {
+                    return this.StatusCode(403); // Not entitled to act on the activity
+                }
+
+                var stateDetailsEntity = new GolemClientMockAPI.Entities.ActivityStateDetails()
+                {
+                    CurrentCommand = "",
+                    State = (GolemClientMockAPI.Entities.ActivityState)state.State,
+                    UsageVector = state.CurrentUsage?.Select(item => (decimal)item).ToArray()
+                };
+
+                this.ActivityProcessor.SendActivityStateDetails(activityId, stateDetailsEntity);
+
+                return this.Ok();
+            }
+            catch (Exception exc)
+            {
+                return this.StatusCode(500, new DestroyActivityError() { Message = exc.Message });
+            }
 
 
             throw new NotImplementedException();

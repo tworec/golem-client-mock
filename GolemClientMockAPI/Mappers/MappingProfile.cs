@@ -68,9 +68,19 @@ namespace GolemClientMockAPI.Mappers
             CreateMap<Entities.ActivityProviderEvent, ActivityAPI.Models.ExecProviderEvent>()
                 .ForMember(dest => dest.ActivityId, opt => opt.MapFrom(src => src.ActivityId))
                 .ForMember(dest => dest.EventType, opt => opt.MapFrom(src => src.EventType))
+                .ForMember(dest => dest.BatchId, opt => opt.MapFrom(src => src.ExeScript.BatchId))
                 // NOTE: We are not implementing the ExeScript text parsing here! This must be implemented in dedicated mapper
                 .ForMember(dest => dest.ExeScript, opt => opt.Ignore())
                 ;
+
+
+            // ActivityRequestorEvent
+            CreateMap<Entities.ActivityRequestorEvent, ActivityAPI.Models.ExeScriptCommandResult>()
+                .ForMember(dest => dest.Index, opt => opt.MapFrom(src => src.ExecResult.Index))
+                .ForMember(dest => dest.Result, opt => opt.MapFrom(src => src.ExecResult.Result))
+                // .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.ExecResult))  // no result message in respnse structure yet!
+                ;
+
 
             // ...to Entities
 

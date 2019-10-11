@@ -42,8 +42,10 @@ namespace GolemClientMockAPI.Mappers
                 Commands = new List<ActivityAPI.Models.ExeScriptCommand>()
             };
 
+            // TODO more sophisticated syntax parser required here!
 
-            var lines = providerEventEntity.ExeScript.Text.Split(Environment.NewLine);
+
+            var lines = providerEventEntity.ExeScript.Text.Replace("\r", "").Split("\n");
 
             foreach(var line in lines)
             {
