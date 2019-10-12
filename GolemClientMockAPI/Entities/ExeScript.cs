@@ -13,5 +13,10 @@ namespace GolemClientMockAPI.Entities
         /// The body of ExeScript
         /// </summary>
         public string Text { get; set; }
+
+        /// <summary>
+        /// Number of commands in batch script
+        /// </summary>
+        public int CommandCount { get; set; }
     }
 }

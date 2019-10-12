@@ -624,6 +624,11 @@
             Gets or Sets Index
             </summary>
         </member>
+        <member name="P:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.IsBatchFinished">
+            <summary>
+            Gets or Sets IsBatchFinished
+            </summary>
+        </member>
         <member name="T:GolemClientMockAPI.ActivityAPI.Models.ExeScriptCommandResult.ResultEnum">
             <summary>
             Gets or Sets Result
@@ -873,6 +878,11 @@
             Index of command for which this is the result
             </summary>
         </member>
+        <member name="P:GolemClientMockAPI.Entities.ActivityExecResult.IsBatchFinished">
+            <summary>
+            Indicates this was the last command in the batch
+            </summary>
+        </member>
         <member name="P:GolemClientMockAPI.Entities.ActivityExecResult.CurrentState">
             <summary>
             Current state of the Activity after the command
@@ -886,6 +896,11 @@
         <member name="P:GolemClientMockAPI.Entities.ExeScript.Text">
             <summary>
             The body of ExeScript
+            </summary>
+        </member>
+        <member name="P:GolemClientMockAPI.Entities.ExeScript.CommandCount">
+            <summary>
+            Number of commands in batch script
             </summary>
         </member>
         <member name="P:GolemClientMockAPI.Entities.MarketProviderEvent.DemandProposal">

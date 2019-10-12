@@ -76,9 +76,9 @@ namespace GolemMarketMockAPI.Controllers
             {
                 var events = await this.ActivityProcessor.CollectActivityEventsAsync(clientContext.NodeId ,timeout ?? 15000);
 
-                var result = events.Select(ev => this.EventMapper.Map(ev)).ToList();
+                var results = events.Select(ev => this.EventMapper.Map(ev)).ToList();
 
-                return this.Ok(result);
+                return this.Ok(results);
             }
             catch (Exception exc)
             {

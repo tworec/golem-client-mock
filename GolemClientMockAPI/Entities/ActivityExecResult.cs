@@ -18,6 +18,11 @@ namespace GolemClientMockAPI.Entities
         /// </summary>
         public int Index { get; set; }
 
+        /// <summary>
+        /// Indicates this was the last command in the batch
+        /// </summary>
+        public bool IsBatchFinished { get; set; }
+
         public ActivityExecResultEnum Result { get; set; }
 
         /// <summary>

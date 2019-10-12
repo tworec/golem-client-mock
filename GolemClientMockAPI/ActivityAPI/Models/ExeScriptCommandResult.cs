@@ -34,6 +34,13 @@ namespace GolemClientMockAPI.ActivityAPI.Models
         public int? Index { get; set; }
 
         /// <summary>
+        /// Gets or Sets IsBatchFinished
+        /// </summary>
+        [DataMember(Name = "IsBatchFinished", EmitDefaultValue = false)]
+        [JsonProperty(PropertyName = "IsBatchFinished")]
+        public bool? IsBatchFinished { get; set; }
+
+        /// <summary>
         /// Gets or Sets Result
         /// </summary>
         [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
@@ -74,6 +81,7 @@ namespace GolemClientMockAPI.ActivityAPI.Models
             var sb = new StringBuilder();
             sb.Append("class ExeScriptCommandResult {\n");
             sb.Append("  Index: ").Append(Index).Append("\n");
+            sb.Append("  IsBatchFinished: ").Append(IsBatchFinished).Append("\n");
             sb.Append("  Result: ").Append(Result).Append("\n");
             sb.Append("  Message: ").Append(Message).Append("\n");
             sb.Append("}\n");
@@ -116,7 +124,12 @@ namespace GolemClientMockAPI.ActivityAPI.Models
                     Index == other.Index ||
                     Index != null &&
                     Index.Equals(other.Index)
-                ) && 
+                ) &&
+                (
+                    IsBatchFinished == other.IsBatchFinished ||
+                    IsBatchFinished != null &&
+                    IsBatchFinished.Equals(other.IsBatchFinished)
+                ) &&
                 (
                     Result == other.Result ||
                     Result != null &&
@@ -139,11 +152,13 @@ namespace GolemClientMockAPI.ActivityAPI.Models
             {
                 var hashCode = 41;
                 // Suitable nullity checks etc, of course :)
-                    if (Index != null)
+                if (Index != null)
                     hashCode = hashCode * 59 + Index.GetHashCode();
-                    if (Result != null)
+                if (IsBatchFinished != null)
+                    hashCode = hashCode * 59 + IsBatchFinished.GetHashCode();
+                if (Result != null)
                     hashCode = hashCode * 59 + Result.GetHashCode();
-                    if (Message != null)
+                if (Message != null)
                     hashCode = hashCode * 59 + Message.GetHashCode();
                 return hashCode;
             }

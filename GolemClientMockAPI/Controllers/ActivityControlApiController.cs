@@ -233,7 +233,7 @@ namespace GolemMarketMockAPI.Controllers
                     return this.StatusCode(403); // Not entitled to act on the activity
                 }
 
-                // TODO validate the rights to batch???
+                // TODO check batch exists? validate the rights to batch??? 
 
                 var resultsEntity = await this.ActivityProcessor.GetExecBatchResultsAsync(batchId, timeout ?? 30000);
 
