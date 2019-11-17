@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -7,14 +8,14 @@ namespace GolemMarketApiMockup
 {
 
     [StructLayout(LayoutKind.Sequential)]
-    struct StringRef
+    public struct StringRef
     {
         public IntPtr Bytes;
         public uint Length;
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct StringRefArray
+    public struct StringRefArray
     {
         public StringRef[] Refs;
         public uint Length;
@@ -22,6 +23,24 @@ namespace GolemMarketApiMockup
 
     public class GolemMarketResolver
     {
+        IMarketApiInterop MarketApiInterop { get; set; }
+
+        public GolemMarketResolver()
+        {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            {
+                this.MarketApiInterop = new OSXMarketApiInterop();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                this.MarketApiInterop = new Linux64MarketApiInterop();
+            }
+            else // RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
+            {
+                this.MarketApiInterop = new Win64MarketApiInterop();
+            }
+
+        }
 
         public enum ResultEnum
         {
@@ -30,15 +49,6 @@ namespace GolemMarketApiMockup
             False = 0,
             Undefined = 2
         }
-
-        [DllImport("market_api.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern Int32 match_demand_offer(StringRef[] demand_props, uint demand_props_count,
-                                                       StringRef demand_constraints,
-                                                       StringRef[] offer_props, uint offer_props_count,
-                                                       StringRef offer_constraints);
-
-        [DllImport("market_api.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern Int32 resolve_expression(StringRef expression, StringRef[] props, uint props_count);
 
         public ResultEnum MatchDemandOffer(String[] demand_props, String demand_constraints,
                                                String[] offer_props, String offer_constraints)
@@ -50,7 +60,7 @@ namespace GolemMarketApiMockup
 
             try
             {
-                var resolutionResult = (ResultEnum)match_demand_offer(demand_props_packed.Refs, demand_props_packed.Length,
+                var resolutionResult = (ResultEnum)this.MarketApiInterop.MatchDemandOffer(demand_props_packed.Refs, demand_props_packed.Length,
                                           demand_constraints_packed,
                                           offer_props_packed.Refs, offer_props_packed.Length,
                                           offer_constraints_packed);
@@ -82,7 +92,7 @@ namespace GolemMarketApiMockup
 
             try
             {
-                return (ResultEnum) resolve_expression(expression_packed, props_packed.Refs, props_packed.Length);
+                return (ResultEnum)this.MarketApiInterop.ResolveExpression(expression_packed, props_packed.Refs, props_packed.Length);
 
             }
             catch (Exception exc)

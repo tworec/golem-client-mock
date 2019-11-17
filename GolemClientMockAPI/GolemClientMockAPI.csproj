@@ -18,6 +18,42 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\public\favicon.ico" />
+    <None Remove="ClientApp\public\index.html" />
+    <None Remove="ClientApp\scss\custom.scss" />
+    <None Remove="ClientApp\src\App.js" />
+    <None Remove="ClientApp\src\App.test.js" />
+    <None Remove="ClientApp\src\components\Counter.js" />
+    <None Remove="ClientApp\src\components\FetchData.js" />
+    <None Remove="ClientApp\src\components\Home.js" />
+    <None Remove="ClientApp\src\components\Layout.js" />
+    <None Remove="ClientApp\src\components\NavMenu.css" />
+    <None Remove="ClientApp\src\components\NavMenu.js" />
+    <None Remove="ClientApp\src\components\Node.js" />
+    <None Remove="ClientApp\src\components\Subscriptions.js" />
+    <None Remove="ClientApp\src\index.js" />
+    <None Remove="ClientApp\src\registerServiceWorker.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\public\favicon.ico" />
+    <Content Include="ClientApp\public\index.html" />
+    <Content Include="ClientApp\scss\custom.scss" />
+    <Content Include="ClientApp\src\App.js" />
+    <Content Include="ClientApp\src\App.test.js" />
+    <Content Include="ClientApp\src\components\Counter.js" />
+    <Content Include="ClientApp\src\components\FetchData.js" />
+    <Content Include="ClientApp\src\components\Home.js" />
+    <Content Include="ClientApp\src\components\Layout.js" />
+    <Content Include="ClientApp\src\components\NavMenu.css" />
+    <Content Include="ClientApp\src\components\NavMenu.js" />
+    <Content Include="ClientApp\src\components\Node.js" />
+    <Content Include="ClientApp\src\components\Subscriptions.js" />
+    <Content Include="ClientApp\src\index.js" />
+    <Content Include="ClientApp\src\registerServiceWorker.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.9.2" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="AutoMapper" Version="8.1.1" />
