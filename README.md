@@ -70,7 +70,11 @@ npm install
 
 In command prompt, in golem-client-mock folder, run:
 ```
-dotnet run -p GolemCLientMockAPI
+dotnet run -p GolemClientMockAPI
+```
+...or (Linux):
+```
+./start_api.sh
 ```
 
 ...and observe the messages from the API startup.
