@@ -32,10 +32,10 @@ dotnet publish
 
 **Setup prerequisites:**
 
-(As per [https://dotnet.microsoft.com/download/linux-package-manager/ubuntu16-04/sdk-current], but note .NET Core 2.2. is required rather than the latest version) :
+(As per [https://dotnet.microsoft.com/download/linux-package-manager/ubuntu18-04/sdk-current], but note .NET Core 2.2. is required rather than the latest version) :
 
 ```
-wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 ```
 
@@ -56,7 +56,7 @@ sudo apt install npm
 
 Get project sources:
 ```
-git clone https://github.com/stranger80/golem-market-api.git
+git clone https://github.com/stranger80/golem-client-mock.git
 ```
 
 Get NPM dependencies for client app:
