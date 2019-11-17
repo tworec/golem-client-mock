@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GolemCLientMockAPI\GolemClientMockAPI.csproj" />
+    <ProjectReference Include="..\GolemClientMockAPI\GolemClientMockAPI.csproj" />
     <ProjectReference Include="..\GolemMarketApiMockup\GolemMarketApiMockup.csproj" />
   </ItemGroup>
 
