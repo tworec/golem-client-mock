@@ -56,7 +56,7 @@ sudo apt install npm
 
 Get project sources:
 ```
-git clone https://github.com/stranger80/golem-market-api.git
+git clone https://github.com/stranger80/golem-client-mock.git
 ```
 
 Get NPM dependencies for client app:
