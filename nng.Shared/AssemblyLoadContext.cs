@@ -1,4 +1,3 @@
-#if FEATURE_NETSTANDARD1_5_AND_UP
 using System;
 using System.IO;
 using System.Reflection;
@@ -98,4 +97,3 @@ namespace nng
         readonly string assemblyPath;
     }
 }
-#endif
