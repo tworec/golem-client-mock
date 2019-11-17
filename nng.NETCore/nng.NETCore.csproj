@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../common.targets" />
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+    <OutputPath>runtimes\any\lib\</OutputPath>
+    <!-- Including assembly as part of runtimes/ so don't want it placed in lib/ -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\nng.Shared\nng.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="runtimes\" />
+  </ItemGroup>
+
+  <Target Name="Runtimes" AfterTargets="Build">
+    <ItemGroup>
+      <Content Include="runtimes\**">
+        <PackagePath>runtimes</PackagePath>
+        <Visible>false</Visible>
+      </Content>
+      <Content Include="build\**">
+        <PackagePath>build</PackagePath>
+      </Content>
+    </ItemGroup>
+  </Target>
+
+</Project>
