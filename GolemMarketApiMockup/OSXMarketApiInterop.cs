@@ -7,13 +7,13 @@ namespace GolemMarketApiMockup
 {
     class OSXMarketApiInterop : IMarketApiInterop
     {
-        [DllImport("runtimes/osx-x64/native/libmarket_api.dylib", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("../GolemMarketApiMockup/runtimes/osx-x64/native/libmarket_api.dylib", CallingConvention = CallingConvention.Cdecl)]
         private static extern Int32 match_demand_offer(StringRef[] demand_props, uint demand_props_count,
                                                StringRef demand_constraints,
                                                StringRef[] offer_props, uint offer_props_count,
                                                StringRef offer_constraints);
 
-        [DllImport("runtimes/osx-x64/native/libmarket_api.dylib", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport("../GolemMarketApiMockup/runtimes/osx-x64/native/libmarket_api.dylib", CallingConvention = CallingConvention.Cdecl)]
         private static extern Int32 resolve_expression(StringRef expression, StringRef[] props, uint props_count);
 
 
