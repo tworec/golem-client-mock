@@ -54,17 +54,18 @@ Get NPM:
 sudo apt install npm
 ```
 
-Get project sources:
-```
-git clone https://github.com/stranger80/golem-client-mock.git
-```
+and then follow section for [Windows](#Windows)
 
-Get NPM dependencies for client app:
-```
-cd golem-client-mock/GolemClientMockAPI/ClientApp
-npm install
-```
+### macOS
 
+**Setup prerequisites:**
+- Get .NET Core 2.2. SDK: https://dotnet.microsoft.com/download/dotnet-core/2.2
+- Get NPM using brew: https://treehouse.github.io/installation-guides/mac/node-mac.html
+```
+brew update
+brew install node
+```
+and then follow section for [Windows](#Windows)
 
 ## Running the project
 
